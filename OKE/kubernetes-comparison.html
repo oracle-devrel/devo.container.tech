@@ -1,0 +1,880 @@
+<!DOCTYPE html>  
+<html lang="US">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <title>**Kubernetes: A comparison of managed engines**</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style id="mkstylesheet">
+#wrapper{color:#24292e;font-family:-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';margin:0;text-size-adjust:100%}#wrapper aside,#wrapper article,#wrapper details,#wrapper figcaption,#wrapper figure,#wrapper footer,#wrapper header,#wrapper hgroup,#wrapper main,#wrapper menu,#wrapper nav,#wrapper section,#wrapper summary{display:block}#wrapper audio,#wrapper canvas,#wrapper progress,#wrapper video{display:inline-block;vertical-align:baseline}#wrapper audio:not([controls]){display:none;height:0}#wrapper [hidden],#wrapper template{display:none}#wrapper a{background-color:transparent}#wrapper a:active,#wrapper a:hover{outline:0}#wrapper abbr[title]{border-bottom:1px dotted}#wrapper b,#wrapper strong{font-weight:bold}#wrapper dfn{font-style:italic}#wrapper mark{background:#ff0;color:#000}#wrapper small{font-size:80%}#wrapper sub,#wrapper sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}#wrapper sup{top:-.5em}#wrapper sub{bottom:-.25em}#wrapper img{border:0}#wrapper svg:not(:root){overflow:hidden}#wrapper figure{margin:1em 40px}#wrapper hr{box-sizing:content-box;height:0}#wrapper pre{overflow:auto}#wrapper code,#wrapper kbd,#wrapper pre,#wrapper samp{font-family:monospace, monospace;font-size:1em}#wrapper button,#wrapper input,#wrapper optgroup,#wrapper select,#wrapper textarea{color:inherit;font:inherit;margin:0}#wrapper button{overflow:visible}#wrapper button,#wrapper select{text-transform:none}#wrapper button,#wrapper input[type='button'],#wrapper input[type='reset'],#wrapper input[type='submit']{-webkit-appearance:button;cursor:pointer}#wrapper button[disabled]{cursor:default}#wrapper button::-moz-focus-inner,#wrapper input::-moz-focus-inner{border:0;padding:0}#wrapper input{line-height:normal}#wrapper input[type='checkbox'],#wrapper input[type='radio']{box-sizing:border-box;padding:0}#wrapper input[type='number']::-webkit-inner-spin-button,#wrapper input[type='number']::-webkit-outer-spin-button{height:auto}#wrapper input[type='search']{-webkit-appearance:textfield;box-sizing:content-box}#wrapper input[type='search']::-webkit-search-cancel-button,#wrapper input[type='search']::-webkit-search-decoration{-webkit-appearance:none}#wrapper fieldset{border:1px solid #c0c0c0;margin:0 2px;padding:0.35em 0.625em 0.75em}#wrapper legend{border:0;padding:0}#wrapper textarea{overflow:auto}#wrapper optgroup{font-weight:bold}#wrapper table{border-collapse:collapse;border-spacing:0}#wrapper *{box-sizing:border-box}#wrapper input,#wrapper select,#wrapper textarea,#wrapper button{font:14px/21px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'}#wrapper body{font:14px/21px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';color:#333;background-color:#fff}#wrapper a{color:#4078c0;text-decoration:none}#wrapper a:hover,#wrapper a:active{text-decoration:underline}#wrapper hr,#wrapper .rule{background:transparent;border:0;border-bottom:1px solid #ddd;height:0;margin:15px 0;overflow:hidden}#wrapper hr:before,#wrapper .rule:before{content:'';display:table}#wrapper hr:after,#wrapper .rule:after{clear:both;content:'';display:table}#wrapper h1,#wrapper h2,#wrapper h3,#wrapper h4,#wrapper h5,#wrapper h6{font-weight:600;line-height:1.1;margin:24px 0 16px;padding:0}#wrapper h1,#wrapper h2{border-bottom:1px solid #eaecef}#wrapper h1{font-size:32px;line-height:40px;margin:0 0 16px;padding:0 0 9.600000381469727px}#wrapper h2{font-size:24px;line-height:30px;padding:0 0 7.199999809265137px}#wrapper h3{font-size:20px;line-height:25px}#wrapper h4{font-size:16px;line-height:20px;margin:24px 0 16px;padding:0}#wrapper h5{font-size:14px;line-height:17px}#wrapper h6{font-size:13.600000381469727px;line-height:17px}#wrapper small{font-size:90%}#wrapper blockquote{margin:0}#wrapper ol ol,#wrapper ul ol{list-style-type:lower-roman}#wrapper ul ul ol,#wrapper ul ol ol,#wrapper ol ul ol,#wrapper ol ol ol{list-style-type:lower-alpha}#wrapper dd{margin-left:0}#wrapper tt,#wrapper code,#wrapper pre{font-family:SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace}#wrapper pre{background-color:#f6f8fa;border-radius:3px;font-size:85%;line-height:1.45;overflow:auto;padding:16px;margin-top:0;margin-bottom:0}#wrapper{-webkit-font-smoothing:antialiased;background:#fff;border:solid 1px #dddddd !important;border-radius:3px;color:#333;font:14px -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';line-height:1.6;padding:3px}p{margin:1em 0}a{color:#4183c4;text-decoration:none}#wrapper{background-color:#fff;font-size:16px;line-height:1.6;margin:15px;padding:30px}#wrapper>*:first-child{margin-top:0 !important}#wrapper>*:last-child{margin-bottom:0 !important}@media screen{#wrapper{border:solid 1px #ddd}}p,blockquote,ul,ol,dl,table,pre{margin-bottom:16px}hr{height:4px;padding:0;margin:16px 0;background-color:#e7e7e7;border:0 none}ul,ol{padding-left:2.8rem}ul.no-list,ol.no-list{padding:0;list-style-type:none}ul ul,ul ol{margin-top:0;margin-bottom:0}ol ol,ol ul{margin-top:0;margin-bottom:0}li>p{margin-bottom:0}li p+p{margin-top:16px}dl{padding:0}dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}dl dd{padding:0 16px;margin-bottom:16px}blockquote{padding:0 15px;margin-left:0;color:#777;border-left:4px solid #ddd}blockquote>:first-child{margin-top:0}blockquote>:last-child{margin-bottom:0}table{display:block;width:100%;overflow:auto}table th{font-weight:700;padding:6px 13px;border:1px solid #ddd}table td{padding:6px 13px;border:1px solid #ddd}table tr{background-color:#fff;border-top:1px solid #ccc}table tr:nth-child(2n){background-color:#f8f8f8}img{max-width:100%;-moz-box-sizing:border-box;box-sizing:border-box}span.frame{display:block;overflow:hidden}span.frame>span{display:block;float:left;width:auto;padding:7px;margin:13px 0 0;overflow:hidden;border:1px solid #ddd}span.frame span img{display:block;float:left}span.frame span span{display:block;padding:5px 0 0;clear:both;color:#333}span.align-center{display:block;overflow:hidden;clear:both}span.align-center>span{display:block;margin:13px auto 0;overflow:hidden;text-align:center}span.align-center span img{margin:0 auto;text-align:center}span.align-right{display:block;overflow:hidden;clear:both}span.align-right>span{display:block;margin:13px 0 0;overflow:hidden;text-align:right}span.align-right span img{margin:0;text-align:right}span.float-left{display:block;float:left;margin-right:13px;overflow:hidden}span.float-left span{margin:13px 0 0}span.float-right{display:block;float:right;margin-left:13px;overflow:hidden}span.float-right>span{display:block;margin:13px auto 0;overflow:hidden;text-align:right}code,tt{background-color:rgba(0,0,0,0.04);border-radius:3px;font-size:85%;margin:0;padding-bottom:.2em;padding-top:.2em;padding:0}code::before,code::after{content:'\00a0';letter-spacing:-.2em}tt:before,tt:after{content:'\00a0';letter-spacing:-.2em}code br,tt br{display:none}del code{text-decoration:inherit;vertical-align:text-top}pre>code{padding:0;margin:0;font-size:100%;white-space:pre;background:transparent;border:0}.highlight{margin-bottom:16px}.highlight pre{padding:16px;margin-bottom:0;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px}pre{padding:16px;margin-bottom:16px;overflow:auto;font-size:85%;line-height:1.45;background-color:#f7f7f7;border-radius:3px;word-wrap:normal}pre code,pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}pre code:before,pre code:after{content:normal}pre tt:before,pre tt:after{content:normal}.poetry pre{font-family:Georgia, Garamond, serif !important;font-style:italic;font-size:110% !important;line-height:1.6em;display:block;margin-left:1em}.poetry pre code{font-family:Georgia, Garamond, serif !important;word-break:break-all;word-break:break-word;-webkit-hyphens:auto;-moz-hyphens:auto;hyphens:auto;white-space:pre-wrap}sup,sub,a.footnote{font-size:1.4ex;height:0;line-height:1;vertical-align:super;position:relative}sub{vertical-align:sub;top:-1px}@media print{body{background:#fff}img,table,figure{page-break-inside:avoid}#wrapper{background:#fff;border:none !important;font-size:12px}pre code{overflow:visible}}@media screen{body.inverted{border-color:#555;box-shadow:none;color:#eee !important}.inverted #wrapper,.inverted hr,.inverted p,.inverted td,.inverted li,.inverted h1,.inverted h2,.inverted h3,.inverted h4,.inverted h5,.inverted h6,.inverted th,.inverted .math,.inverted caption,.inverted dd,.inverted dt,.inverted blockquote{border-color:#555;box-shadow:none;color:#eee !important}.inverted td,.inverted th{background:#333}.inverted pre,.inverted code,.inverted tt{background:#eeeeee !important;color:#111}.inverted h2{border-color:#555555}.inverted hr{border-color:#777;border-width:1px !important}::selection{background:rgba(157,193,200,0.5)}h1::selection{background-color:rgba(45,156,208,0.3)}h2::selection{background-color:rgba(90,182,224,0.3)}h3::selection,h4::selection,h5::selection,h6::selection,li::selection,ol::selection{background-color:rgba(133,201,232,0.3)}code::selection{background-color:rgba(0,0,0,0.7);color:#eeeeee}code span::selection{background-color:rgba(0,0,0,0.7) !important;color:#eeeeee !important}a::selection{background-color:rgba(255,230,102,0.2)}.inverted a::selection{background-color:rgba(255,230,102,0.6)}td::selection,th::selection,caption::selection{background-color:rgba(180,237,95,0.5)}.inverted{background:#0b2531;background:#252a2a}.inverted #wrapper{background:#252a2a}.inverted a{color:#acd1d5}}.highlight{background:#fff}.highlight .c{color:#998;font-style:italic}.highlight .err{color:#a61717;background-color:#e3d2d2}.highlight .k,.highlight .o{font-weight:700}.highlight .cm{color:#998;font-style:italic}.highlight .cp{color:#999;font-weight:700}.highlight .c1{color:#998;font-style:italic}.highlight .cs{color:#999;font-weight:700;font-style:italic}.highlight .gd{color:#000;background-color:#fdd}.highlight .gd .x{color:#000;background-color:#faa}.highlight .ge{font-style:italic}.highlight .gr{color:#a00}.highlight .gh{color:#999}.highlight .gi{color:#000;background-color:#dfd}.highlight .gi .x{color:#000;background-color:#afa}.highlight .go{color:#888}.highlight .gp{color:#555}.highlight .gs{font-weight:700}.highlight .gu{color:purple;font-weight:700}.highlight .gt{color:#a00}.highlight .kc,.highlight .kd,.highlight .kn,.highlight .kp,.highlight .kr{font-weight:700}.highlight .kt{color:#458;font-weight:700}.highlight .m{color:#099}.highlight .s{color:#d14}.highlight .n{color:#333}.highlight .na{color:teal}.highlight .nb{color:#0086b3}.highlight .nc{color:#458;font-weight:700}.highlight .no{color:teal}.highlight .ni{color:purple}.highlight .ne,.highlight .nf{color:#900;font-weight:700}.highlight .nn{color:#555}.highlight .nt{color:navy}.highlight .nv{color:teal}.highlight .ow{font-weight:700}.highlight .w{color:#bbb}.highlight .mf,.highlight .mh,.highlight .mi,.highlight .mo{color:#099}.highlight .sb,.highlight .sc,.highlight .sd,.highlight .s2,.highlight .se,.highlight .sh,.highlight .si,.highlight .sx{color:#d14}.highlight .sr{color:#009926}.highlight .s1{color:#d14}.highlight .ss{color:#990073}.highlight .bp{color:#999}.highlight .vc,.highlight .vg,.highlight .vi{color:teal}.highlight .il{color:#099}.highlight .gc{color:#999;background-color:#EAF2F5}.type-csharp .highlight .k,.type-csharp .highlight .kt{color:blue}.type-csharp .highlight .nf{color:#000;font-weight:400}.type-csharp .highlight .nc{color:#2b91af}.type-csharp .highlight .nn{color:#000}.type-csharp .highlight .s,.type-csharp .highlight .sc{color:#a31515}.type-csharp .highlight .k,.type-csharp .highlight .kt{color:#00F}.type-csharp .highlight .nf{color:#000;font-weight:normal}.type-csharp .highlight .nc{color:#2B91AF}.type-csharp .highlight .nn{color:#000}.type-csharp .highlight .s,.type-csharp .highlight .sc{color:#A31515}body.dark #wrapper{background:transparent !important;box-shadow:none !important}kbd{background-color:#fafbfc;border:1px solid #d1d5da;border-radius:3px;box-shadow:inset 0 -1px 0 #d1d5da;color:#444d56;display:inline-block;font:11px SFMono-Regular, Consolas, Liberation Mono, Menlo, monospace;line-height:10px;padding:3px 5px;vertical-align:middle}.inverted kbd{background-color:#666;color:#fff}
+#mkreplaced-toc{list-style-position:inside;padding:0;margin:0 0 0 1rem;list-style-type:none}#mkreplaced-toc li::before{content:''}#mkreplaced-toc li{font-size:1rem;line-height:1.25;font-weight:normal}#mkreplaced-toc li ul{font-size:1.3rem;font-weight:300;padding:.5rem 0;margin:0 0 0 1rem}#mkreplaced-toc li.missing{list-style-type:none !important}#mkreplaced-toc.max-1 ul,#mkreplaced-toc.max1 ul{display:none}#mkreplaced-toc.max-2 ul ul,#mkreplaced-toc.max2 ul ul{display:none}#mkreplaced-toc.max-3 ul ul ul,#mkreplaced-toc.max3 ul ul ul{display:none}#mkreplaced-toc.max-4 ul ul ul ul,#mkreplaced-toc.max4 ul ul ul ul{display:none}#mkreplaced-toc.max-5 ul ul ul ul ul,#mkreplaced-toc.max5 ul ul ul ul ul{display:none}.mk-rtl{direction:rtl;text-align:right}body.mkkatex-number-equations{counter-reset:eqnum}body.mkkatex-number-equations .katex-display{position:relative}body.mkkatex-number-equations .katex-display::after{counter-increment:eqnum;content:"(" counter(eqnum) ")";position:absolute;left:0;top:25%}body.mkkatex-number-equations.mkkatex-number-equations-right .katex-display::after{right:0;left:auto}.mkprinting,.mkprinting #wrapper{height:auto;margin-bottom:0;padding-bottom:0}.hideProgress #generated-toc,.hideProgress #firstdiff,.hideProgress #toc-title,.hideProgress #mkdocumentprogress,.hideProgress #mkincludechart,.hideProgress #mkprogressbar1,.hideProgress #mkprogressbar2,.hideProgress b.bookmark,.hideProgress .mkscrollmeter,.hideProgress #alllinks,.hideProgress #criticnav,.hideProgress .popup,.hideProgress #progressindicator,.hideProgress #mkautoscroll,.mkprinting #generated-toc,.mkprinting #firstdiff,.mkprinting #toc-title,.mkprinting #mkdocumentprogress,.mkprinting #mkincludechart,.mkprinting #mkprogressbar1,.mkprinting #mkprogressbar2,.mkprinting b.bookmark,.mkprinting .mkscrollmeter,.mkprinting #alllinks,.mkprinting #criticnav,.mkprinting .popup,.mkprinting #progressindicator,.mkprinting #mkautoscroll{display:none !important}.hideProgress .mkstyledtag,.mkprinting .mkstyledtag{display:none}.mkcolor-grammar-error,.mkcolor-spell-error{background:none;border-bottom:none}.mkprinting.mkshowcomments .mkstyledtag{display:inline;background:#ccc;padding:3px 9px;border-radius:20px;font-size:1}@media print{body{background:white;line-height:1.4}html,body,#wrapper{-moz-box-shadow:none;-webkit-box-shadow:none;box-shadow:none;-webkit-perspective:none !important;-webkit-text-size-adjust:none;border:0;box-sizing:border-box;float:none;margin:0;max-width:100%;padding:0;margin-top:0;width:auto}.critic #wrapper mark.crit{background-color:#fffd38 !important;text-decoration:none;color:#000}h1,h2,h3,h4,h5,h6{page-break-after:avoid}p,h2,h3{orphans:3;widows:3}section{page-break-before:avoid}pre>code{white-space:pre;word-break:break-word}#generated-toc,#firstdiff,#toc-title,#mkdocumentprogress,#mkincludechart,#mkprogressbar1,#mkprogressbar2,.mkscrollmeter,#alllinks,.popup{display:none !important}.suppressprintlinks a{border-bottom:none !important;color:inherit !important;cursor:default !important;text-decoration:none !important}.hrefafterlinktext #wrapper a:link:after,.hrefafterlinktext #wrapper a:visited:after{content:" (" attr(href) ") ";font-size:90%;opacity:.9}.nocodebreak pre{page-break-inside:avoid}img,table,figure{page-break-inside:avoid}.breakfootnotes .footnotes{page-break-before:always}.breakfootnotes .footnotes hr{display:none}#mktoctitle{display:block}#print-title{border-bottom:solid 1px #666;display:block}#wrapper pre{white-space:pre;white-space:pre-wrap;word-wrap:break-word}#wrapper #generated-toc-clone,#wrapper #mkreplaced-toc{display:block}.task-list{padding-left:3.3rem}.mkstyle--ink .task-list,.mkstyle--swiss .task-list{padding-left:3.3rem !important}.mkstyle--upstandingcitizen .task-list,.mkstyle--github .task-list{padding-left:3.6rem !important}.mkstyle--manuscript .task-list{padding-left:2.4rem !important}.mkstyle--amblin .task-list{padding-left:2.1rem !important}.mkstyle--grump .task-list{padding-left:1rem !important}.mkstyle--grump .task-list .task-list-item-checkbox{left:0 !important}.task-list .task-list-item{list-style-type:none !important;left:auto}.task-list .task-list-item .task-list-item-checkbox{-webkit-appearance:none;position:relative;left:auto}.task-list .task-list-item .task-list-item-checkbox:before{border:solid 1px #aaa;border-radius:2px;color:white;content:' ';display:block;font-weight:bold;height:1em;left:-1rem;line-height:1;position:absolute;text-align:center;top:-.75em;width:1em}.task-list .gh-complete.task-list-item .task-list-item-checkbox:before{background:#838387;content:'\2713'}}
+#wrapper #generated-toc-clone,#wrapper #mkreplaced-toc,#wrapper #generated-toc-clone ul,#wrapper #mkreplaced-toc ul{list-style-position:inside}#wrapper #generated-toc-clone li.missing,#wrapper #mkreplaced-toc li.missing{list-style-type: none!important}#wrapper #generated-toc-clone ul,#wrapper #mkreplaced-toc ul{list-style-type: upper-roman}#wrapper #generated-toc-clone>ul>li>ul,#wrapper #mkreplaced-toc>li>ul {list-style-type: decimal}#wrapper #generated-toc-clone>ul>li>ul>li>ul,#wrapper #mkreplaced-toc>li>ul>li>ul{list-style-type: decimal-leading-zero}#wrapper #generated-toc-clone>ul>li>ul>li>ul>li>ul,#wrapper #mkreplaced-toc>li>ul>li>ul>li>ul{list-style-type: lower-greek}#wrapper #generated-toc-clone>ul>li>ul>li>ul>li>ul>li>ul,#wrapper #mkreplaced-toc>li>ul>li>ul>li>ul>li>ul{list-style-type: disc}#wrapper #generated-toc-clone>ul>li>ul>li>ul>li>ul>li>ul>li>ul,#wrapper #mkreplaced-toc>li>ul>li>ul>li>ul>li>ul>li>ul{list-style-type: square}#wrapper #generated-toc-clone,#wrapper #mkreplaced-toc{}
+@media print {
+  #mkreplaced-toc a { 
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+</style>
+
+<style id="mkprintstyles">@media print{#wrapper #generated-toc-clone,#generated-toc{display:none!important}hr{border:none!important;page-break-after:always!important;background:none!important}h1:nth-of-type(n+2){page-break-before:always}
+html,body,#wrapper{font-size:14pt!important}
+}
+</style>
+
+
+  </head>
+<body class="normal">
+  <div id="wrapper">
+<h2 id="generalinformation"><strong>General Information</strong></h2>
+
+<p>Quick reference</p>
+
+<ul>
+<li><a href="#GI_CurrentKs8Version">Currently supported Kubernetes version(s)</a></li>
+<li><a href="#GI_SupportedMinorVersions"># of supported minor version releases</a></li>
+<li><a href="#GI_ReleaseDate">Original GA release date</a></li>
+<li><a href="#GI_Pricing">Pricing</a></li>
+<li><a href="#GI_CNCFconformance">CNCF Kubernetes Conformance</a></li>
+<li><a href="#GI_CNCFcertifiedVersion">CLI support</a></li>
+<li><a href="#GI_ControlPlaneUpgradeProcess">Control-plane upgrade process</a></li>
+<li><a href="#GI_NodeUpgradeProcess">Node upgrade process</a></li>
+<li><a href="#GI_NodeOS">Node OS</a></li>
+<li><a href="#GI_ContainerRuntime">Container runtime</a></li>
+<li><a href="#GI_ControlPlaneHAoptions">Control plane high availability options</a></li>
+<li><a href="#GI_ControlPlaneSLA">Control plane SLA</a></li>
+<li><a href="#GI_UptimesSLA">Uptimes SLA</a></li>
+<li><a href="#GI_SLAfinanciallyBacked">SLA financially-backed</a></li>
+<li><a href="#GI_GPUsupport">GPU support</a></li>
+<li><a href="#GI_CPlogCollection">Container performance metrics</a></li>
+<li><a href="#GI_Monitoring">Monitoring</a></li>
+<li><a href="#GI_ResourceMonitoring">Node health monitoring</a></li>
+<li><a href="#GI_Autoscaling">Autoscaling</a></li>
+<li><a href="#GI_ServerlessComputing">Serverless computing</a></li>
+<li><a href="#GI_Accessibility">Accessibility</a></li>
+<li><a href="#GI_BareMetal">Bare metal clusters</a></li>
+<li><a href="#GI_WorkerNodeTypes">Worker node types</a></li>
+<li><a href="#GI_ToolsForDevelopers">Tools for developers</a></li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 23%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>OKE</strong></th>
+<th>EKS</th>
+<th>AKS</th>
+<th>GKE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span id="GI_CurrentKs8Version" class="anchor"></span>Currently supported Kubernetes version(s)</td>
+<td><p>1.25.4, 1.24.1, 1.23.4, 1.22.5</p>
+<p>(<a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutk8sversions.htm">source</a>)</p></td>
+<td><p>1.24.7, 1.23.13, 1.22.15, 1.21.14</p>
+<p>(<a href="https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html">source</a>)</p></td>
+<td><p>1.24.6, 1.23.12, 1.22.15</p>
+<p>Current minor version and previous 2 minor versions (<a href="https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli">source</a>)</p></td>
+<td><p>1.24.1, 1.23.4, 1.22.5, 1.21.5</p>
+<p>(rolling support for the most current versions of K8s; <a href="https://cloud.google.com/kubernetes-engine/versioning">source</a>)</p></td>
+</tr>
+<tr class="even">
+<td><span id="GI_SupportedMinorVersions" class="anchor"></span># of supported minor version releases</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/releasenotes/changes/82948243-0363-414d-ad28-72a7653a4f24/">3</a></td>
+<td>&gt;=3 + 1 deprecated</td>
+<td>3</td>
+<td>4</td>
+</tr>
+<tr class="odd">
+<td><span id="GI_ReleaseDate" class="anchor"></span>Original GA release date</td>
+<td>May 2018</td>
+<td>June 2018</td>
+<td>June 2018</td>
+<td>August 2015</td>
+</tr>
+<tr class="even">
+<td><span id="GI_Pricing" class="anchor"></span>Pricing</td>
+<td>All management costs are <a href="https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm">free</a></td>
+<td><a href="https://aws.amazon.com/eks/pricing/"><u>$0.10/hour (USD)</u></a> per cluster + standard costs of EC2 instances and other resources</td>
+<td><a href="https://azure.microsoft.com/en-ca/pricing/details/kubernetes-service/"><u>Pay-as-you-go</u></a>: Standard costs of node VMs and other resources</td>
+<td><a href="https://cloud.google.com/kubernetes-engine/pricing"><u>$0.10/hour (USD)</u></a> per cluster + standard costs of GCE machines and other resources</td>
+</tr>
+<tr class="odd">
+<td><a href="https://www.cncf.io/certification/software-conformance/">CNCF Kubernetes Conformance</a></td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">Yes</a> (also, <a href="https://www.cncf.io/certification/software-conformance/">here</a>)</td>
+<td>Yes</td>
+<td>Yes</td>
+<td>Yes</td>
+</tr>
+<tr class="even">
+<td><span id="GI_CNCFcertifiedVersion" class="anchor"></span>CLI support</td>
+<td>Full support of Kubernetes clusters;<br />
+<strong><a href="https://docs.oracle.com/en-us/iaas/Content/API/Concepts/devcloudshellintro.htm">Oracle Cloud Shell</a>;</strong> <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaccessingclusterkubectl.htm">Kubectl</a> support</td>
+<td>Full support of Kubernetes clusters; Kubectl support</td>
+<td>Full support of Kubernetes clusters; Kubectl support</td>
+<td>Full support of Kubernetes clusters; Kubectl support</td>
+</tr>
+<tr class="odd">
+<td><span id="GI_ControlPlaneUpgradeProcess" class="anchor"></span>Control-plane upgrade process</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengupgradingk8smasternode.htm">User-initiated</a> All system components update with cluster upgrade</td>
+<td><a href="https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html"><u>User initiated</u></a>; User must also manually update the system services that run on nodes (e.g., kube-proxy, coredns, AWS VPC CNI)</td>
+<td><p><a href="https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster"><u>User initiated</u></a></p>
+<p>All system components update with cluster upgrade</p></td>
+<td><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-upgrades"><u>Automatically upgraded</u></a> by default; <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/upgrading-a-cluster"><u>can be user-initiated</u></a></td>
+</tr>
+<tr class="even">
+<td><span id="GI_NodeUpgradeProcess" class="anchor"></span>Node upgrade process</td>
+<td>
+<p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengupgradingk8sworkernode.htm">User-initiated</a><br />
+Update note pool config, scale out to add nodes with new version, remove old nodes will cordon and drain. Alternatively, create new node pool and divert traffic (blue/green)</p><br/>
+</td>
+<td><ul>
+<li><p>Unmanaged node groups: <a href="https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html"><u>user-initiated and managed</u></a></p></li>
+<li><p>Managed node groups: <a href="https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html"><u>user-initiated</u></a>; drains and replace nodes</p></li>
+</ul></td>
+<td><a href="https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster#set-auto-upgrade-channel"><u>Automatically upgraded</u></a>; or <a href="https://docs.microsoft.com/en-us/azure/aks/upgrade-cluster#:%5c~:text=Upgrade%20an%20AKS%20cluster,-With%20a%20list&amp;text=During%20the%20upgrade%20process%2C%20AKS,the%20old%20node%20is%20deleted"><u>user-initiated</u></a>; AKS will drain and replace nodes</td>
+<td><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-upgrades"><u>Automatically upgraded</u></a> during cluster maintenance window (default; can be turned off); can be user-initiated; drains and replaces nodes</td>
+</tr>
+<tr class="odd">
+<td><span id="GI_NodeOS" class="anchor"></span>Node OS</td>
+<td><ul>
+<li><p><strong>Supported Images</strong> for worker nodes (<a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Reference/contengimagesshapes.htm">source</a>)<br />
+*new images added regularly</p><br/>
+<ul>
+<li><p><strong>Oracle Linux</strong> (<a href="#Note_GI_NodeOS_01"><strong>note</strong></a>)</p></li>
+<li><p><strong>OKE images (<a href="#Note_GI_NodeOS_02">note</a>)</strong></p></li>
+<li><p><em><strong>Looking for Windows? <a href="https://bit.ly/odevrel_slack">Let us know!</a></strong></em></p></li>
+</ul></li>
+</ul></td>
+<td><p><strong>Linux:</strong></p>
+<ul>
+<li><p><a href="https://docs.aws.amazon.com/eks/latest/userguide/launch-workers.html"><u>Amazon Linux 2</u></a> (default); Ubuntu (partner AMI)</p></li>
+<li><p><a href="https://docs.aws.amazon.com/eks/latest/userguide/launch-node-bottlerocket.html"><u>Bottlerocket</u></a></p></li>
+</ul>
+<p><strong>Windows:</strong></p>
+<ul>
+<li><p><a href="https://docs.aws.amazon.com/eks/latest/userguide/windows-support.html"><u>Windows Server 2019</u></a></p></li>
+</ul></td>
+<td><p><strong>Linux:</strong></p>
+<ul>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/aks/concepts-clusters-workloads#nodes-and-node-pools"><u>Ubuntu</u></a></p></li>
+</ul>
+<p><strong>Windows:</strong></p>
+<ul>
+<li><p><a href="https://azure.microsoft.com/en-us/blog/announcing-the-general-availability-of-windows-server-containers-and-private-clusters-for-azure-kubernetes-service/"><u>Windows Server 2019</u></a><br />
+<em>must create AKS Cluster via CLI or PowerShell</em><u><br />
+</u></p></li>
+</ul></td>
+<td><p><strong>Linux:</strong></p>
+<ul>
+<li>
+<p>Container-Optimized OS (COS) (default), Ubuntu</p>
+</li>
+</ul>
+<p><strong>Windows:</strong></p>
+<ul>
+<li>
+<p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-cluster-windows"><u>Windows Server 2019</u></a></p>
+</li>
+<li>
+<p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/creating-a-cluster-windows"><u>Windows Server version 1909</u></a></p>
+</li>
+</ul></td>
+</tr>
+<tr class="even">
+<td><span id="GI_ContainerRuntime" class="anchor"></span>Container runtime</td>
+<td><ul>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutk8sversions.htm">CRI-O</a></p></li>
+</ul></td>
+<td><ul>
+<li><p>Docker (default &lt;= 1.23)</p></li>
+<li><p><a href="https://aws.amazon.com/bottlerocket/"><u>containerd (default &gt;= 1.24)<br />
+(also available through Bottlerocket)</u></a></p></li><br/>
+</ul></td>
+<td><ul>
+<li><p>Docker (default)</p></li>
+<li><p><a href="https://azure.microsoft.com/en-ca/updates/azure-kubernetes-service-aks-support-for-containerd-runtime-is-in-preview/"><u>containerd</u></a></p></li>
+</ul></td>
+<td><ul>
+<li><p>Docker (default)</p></li>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/using-containerd"><u>containerd</u></a></p></li>
+<li><p><a href="https://cloud.google.com/blog/products/gcp/open-sourcing-gvisor-a-sandboxed-container-runtime"><u>gVisor</u></a></p></li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td><span id="GI_ControlPlaneHAoptions" class="anchor"></span>Control plane high availability options</td>
+<td>Control plane is deployed to multiple, Oracle-managed control plane nodes which are distributed across different availability domains (where supported) or different fault domains.</td>
+<td>Control plane is <a href="https://docs.aws.amazon.com/eks/latest/userguide/disaster-recovery-resiliency.html"><u>deployed across multiple Availability Zones (default)</u></a></td>
+<td>Control plane components will be spread between <a href="https://docs.microsoft.com/en-us/azure/aks/availability-zones"><u>the number of zones defined by the Admin</u></a></td>
+<td><p><strong>Zonal Clusters:</strong></p>
+<p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/types-of-clusters#single-zone_clusters"><u>Single Control Plane</u></a></p>
+<p><strong>Regional Clusters:</strong></p>
+<p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/regional-clusters#about_regional_clusters"><u>Three Kubernetes control planes quorum</u></a></p>
+
+<p></td>
+</tr>
+<tr class="even">
+<td><span id="GI_ControlPlaneSLA" class="anchor"></span>Control plane SLA</td>
+<td>
+<p>99.95% SLO</p>
+</td>
+<td>
+<p><a href="https://aws.amazon.com/eks/sla/"><u>99.95% (default)</u></a></p>
+</td>
+<td><ul>
+<li><p><a href="https://techcommunity.microsoft.com/t5/apps-on-azure/aks-introduces-uptime-sla/ba-p/1350832"><u>99.95% (SLA backed)</u></a></p></li>
+<li><p><a href="https://techcommunity.microsoft.com/t5/apps-on-azure/aks-introduces-uptime-sla/ba-p/1350832"><u>99.9% (non-SLA backed)</u></a></p></li>
+</ul></td>
+<td><ul>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/sla"><u>Zonal clusters: 99.95%</u></a></p></li>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/sla"><u>Regional clusters: 99.95%</u></a></p></li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td><span id="GI_UptimesSLA" class="anchor"></span>Uptimes SLA</td>
+<td>
+<p><a href="https://www.oracle.com/assets/paas-iaas-pub-cld-srvs-pillar-4021422.pdf">Compute SLA</a></p></p>
+<ul>
+<li><p>99.99 for regions with multiple Ads</p></li>
+<li><p>99.95 for regions with one AD</p></li>
+<li><p>99.9% for single instance</p></li>
+</ul></td>
+<td>
+<p>guarantees 99.95% uptime</p>
+</td>
+<td>Offers 99.95% when availability zones are enabled, and 99.9% when disabled</td>
+<td>
+<p>GKE splits its managed Kubernetes clusters, offering 99.5% uptime for Zonal deployments and 99.95% for regional deployments.</p>
+</td>
+</tr>
+<tr class="even">
+<td><span id="GI_SLAfinanciallyBacked" class="anchor"></span>SLA financially-backed</td>
+<td>
+<p>Zero cost – not applicable</p>
+</td>
+<td>
+<p><a href="https://aws.amazon.com/eks/sla"><u>Yes</u></a></p>
+</td>
+<td><a href="https://azure.microsoft.com/en-in/support/legal/sla/kubernetes-service/v1_1/"><u>Yes</u></a></td>
+<td><a href="https://cloud.google.com/kubernetes-engine/sla"><u>Yes</u></a></td>
+</tr>
+<tr class="odd">
+<td><span id="GI_GPUsupport" class="anchor"></span>GPU support</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengrunninggpunodes.htm">Yes (NVIDIA)</a>; By selecting a compatible Oracle Linux GPU image, CUDA libraries are pre-installed. CUDA libraries for different GPUs do not have to be included in the application container.</td>
+<td>
+<p><a href="https://aws.amazon.com/about-aws/whats-new/2018/08/amazon-eks-supports-gpu-enabled-ec2-instances/"><u>Yes (NVIDIA)</u></a>; user must install device plugin in cluster</p>
+</td>
+<td><a href="https://docs.microsoft.com/en-us/azure/aks/gpu-cluster"><u>Yes (NVIDIA)</u></a>; user must install device plugin in cluster</td>
+<td><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/gpus"><u>Yes (NVIDIA)</u></a>; user must install device plugin in cluster</p>
+<p><a href="https://cloud.google.com/blog/products/compute/announcing-google-cloud-a2-vm-family-based-on-nvidia-a100-gpu"><u>Compute Engine A2 VMs</u></a>; are also available</p></td>
+</tr>
+<tr class="even">
+<td><span id="GI_CPlogCollection" class="anchor"></span>Container performance metrics</td>
+<td><ul>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Reference/contengmetrics.htm">Default: On</a></p></li>
+<li><p>Metrics and Alarms can be used to manage</p></li>
+</ul></td>
+<td><ul>
+<li><p>Optional</p></li>
+<li><p>Default: Off</p></li>
+<li><p><em>Metrics are sent to</em> <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-metrics-EKS.html"><em><strong><u>AWS CloudWatch Container Insights</u></strong></em></a></p></li>
+</ul></td>
+<td><ul>
+<li><p>Optional</p></li>
+<li><p>Default: Off</p></li>
+<li><p><em>Metrics are sent to</em> <a href="https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-overview"><em><strong><u>Azure Monitor</u></strong></em></a></p></li>
+</ul></td>
+<td><ul>
+<li><p>Optional</p></li>
+<li><p>Default: Off</p></li>
+<li><p><em>Metrics are sent to</em> <a href="https://cloud.google.com/monitoring/api/metrics_kubernetes"><em><strong><u>Stackdriver</u></strong></em></a></p></li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td><span id="GI_Monitoring" class="anchor"></span>Monitoring</td>
+<td><ul>
+<li><p><a href="https://docs.oracle.com/en/solutions/kubernetes-oke-logging-analytics/index.html#GUID-B90B5CC6-28BC-4F45-B4BF-CB416905C3D2">OCI logging analytics</a></p></li>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Reference/contengmetrics.htm">Container Engine for Kubernetes Metrics</a></p></li>
+<li><p><a href="https://blogs.oracle.com/cloudnative/post/monitoring-oke-with-prometheus-and-grafana">Prometheus</a></p></li>
+<li><p><a href="https://blogs.oracle.com/cloudnative/post/monitoring-oke-with-prometheus-and-grafana">Grafana</a></p></li>
+<li><p><a href="https://www.datadoghq.com/blog/monitor-oracle-kubernetes-engine/">Datadog</a> and other 3<sup>rd</sup> party monitoring tools</p></li>
+</ul></td>
+<td><p><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/ContainerInsights.html"><strong>CloudWatch Container Insights</strong></a><br />
+Requires additional setup, metric selection, etc.</p><br/>
+<p>Also Supported:</p>
+<ul>
+<li><p>CloudWatch Agent</p></li>
+<li><p>Fluent Bit</p></li>
+<li><p>Fluentd</p></li>
+<li><p>Prometheus</p></li>
+<li><p>Other 3<sup>rd</sup> party tools</p></li>
+</ul></td>
+<td><p><strong>Azure Monitor</strong></p>
+<p>Also supported:</p>
+<ul>
+<li><p>Fluentd</p></li>
+<li><p>Prometheus</p></li>
+<li><p>Other 3<sup>rd</sup> party tools</p></li>
+</ul></td>
+<td><p><strong>Kubernetes Engine Monitor</strong></p>
+<p><a href="https://cloud.google.com/products/operations">Google Cloud’s operations suite</a> (formerly Stackdriver)</p>
+<p>Also supported:</p>
+<ul>
+<li><p>Fluentd</p></li>
+<li><p>Prometheus</p></li>
+<li><p>Other 3<sup>rd</sup> party tools</p></li>
+</ul></td>
+</tr>
+<tr class="even">
+<td><span id="GI_ResourceMonitoring" class="anchor"></span>Node health monitoring</td>
+<td><p>Self-healing – automatically provisions new worker nodes on failure to maintain cluster availability</p>
+<p>Detect and repair capabilities also exist within autoscaling functionality.</p></td>
+<td><a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/Container-Insights-metrics-EKS.html">Container Insights metrics detect failed nodes.</a> Can trigger replace or allow autoscaling to replace node.</td>
+<td><a href="https://docs.microsoft.com/en-us/azure/aks/node-auto-repair"><u>Auto repair</u></a> is now available. <a href="https://docs.microsoft.com/en-us/azure/azure-monitor/insights/container-insights-analyze"><u>Node status monitoring is available</u></a>. Use <a href="https://docs.microsoft.com/en-us/azure/aks/cluster-autoscaler"><u>autoscaling rules</u></a> to shift workloads.</td>
+<td>Worker node <a href="https://cloud.google.com/kubernetes-engine/docs/how-to/node-auto-repair"><u>auto-repair enabled</u></a> by default</td>
+</tr>
+<tr class="odd">
+<td><span id="GI_Autoscaling" class="anchor"></span>Autoscaling</td>
+<td><ul>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengautoscalingclusters.htm">Cluster Autoscaler</a> (<a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md">FAQ</a>)</p></li>
+<li><p><a href="https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/">Horizontal Pod Autoscaler</a></p></li>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingverticalpodautoscaler.htm">Vertical Pod Autoscaler</a></p></li>
+<li><p><a href="https://kubesphere.io/docs/v3.3/installing-on-kubernetes/hosted-kubernetes/install-kubesphere-on-oke/">Third-party – Keda, KubeSphere</a> (HPA)</p></li>
+</ul>
+<p>“<strong>CA should handle up to 1000 nodes running 30 pods each.</strong> Our testing procedure is described <a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/proposals/scalability_tests.md">here</a>.” (<a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/FAQ.md">source</a>)</p></td>
+<td><p><a href="https://docs.aws.amazon.com/eks/latest/userguide/autoscaling.html">Cluster Autoscaler</a> through:</p>
+<ul>
+<li><p>K8s CA</p></li>
+<li><p>EC2 Auto scaling groups</p></li>
+</ul></td>
+<td><a href="https://learn.microsoft.com/en-us/azure/aks/cluster-autoscaler">Cluster autoscaler</a> native capabilities</td>
+<td><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/cluster-autoscaler">Cluster autoscaler</a></td>
+</tr>
+<tr class="even">
+<td><span id="GI_ServerlessComputing" class="anchor"></span>Serverless computing</td>
+<td>Virtual Nodes coming soon: will deliver a complete, serverless Kubernetes experience.</td>
+<td>Integrated with <a href="https://aws.amazon.com/fargate/"><strong>Fargate</strong></a>; customer can deploy pods as container instances rather than full VMs. Requires the use of <strong>Amazon Application Load Balancer</strong></td>
+<td>Virtual nodes make serverless computing possible in AKS. Does not run separately from the available Kubernetes workloads. A customer can use virtual nodes by assigning particular workloads to them.</td>
+<td><a href="https://cloud.google.com/anthos/run/docs/architecture-overview"><strong>Cloud Run</strong> for Anthos</a></td>
+</tr>
+<tr class="odd">
+<td><span id="GI_Accessibility" class="anchor"></span>Accessibility</td>
+<td>OCI has multiple realms: one commercial realm (with 34 regions) and multiple realms for Government Cloud: US Government Cloud <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/govfedramp.htm#Oracle_Cloud_Infrastructure_US_Government_Cloud_with_FedRAMP_Authorization"><u>FedRAMP authorized</u></a> and <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/govfeddod.htm#Oracle_Cloud_Infrastructure_US_Federal_Cloud_with_DISA_Impact_Level_5_Authorization"><u>IL5 authorized</u></a>, and <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/govuksouth.htm#Oracle_Cloud_Infrastructure_United_Kingdom_Government_Cloud"><u>United Kingdom Government Cloud</u></a></td>
+<td><p>30 regions containing 96 Availability Zones. <em>Service availability may vary by region.</em></p>
+<p>EKS is available on AWS GovCloud regions. AWS Fargate is NOT available in GovCloud regions.</p></td>
+<td><p>Available in 57 of Azure’s 60 regions. <a href="https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview">Not all regions include availability zones</a></p>
+<p>Available in GovCloud</p></td>
+<td><p>Available in 35 regions;</p>
+<p>No GovCloud support</p></td>
+</tr>
+<tr class="even">
+<td><span id="GI_BareMetal" class="anchor"></span>Bare metal worker nodes</td>
+<td><a href="https://www.oracle.com/cloud/cloud-native/container-engine-kubernetes/">Supports</a></td>
+<td>Supports</td>
+<td>Does not support</td>
+<td>Does not support</td>
+</tr>
+<tr class="odd">
+<td><span id="GI_WorkerNodeTypes" class="anchor"></span>Worker node types</td>
+<td><p>Flex shapes, x86, ARM, HPC, GPU, clusters with mixed node types.</p>
+<p>(<a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Reference/contengimagesshapes.htm">source</a>)</p></td>
+<td><p>x86, ARM (Graviton), GPU</p>
+<p>Specific node images required for various CPU / GPU combinations. (<a href="https://docs.aws.amazon.com/eks/latest/userguide/choosing-instance-type.html">source</a>)</p></td>
+<td><p>x86, ARM, GPU</p>
+<p>Minimum 2 vCPU per worker node. Provisioned node size cannot be changed without replacement.</p></td>
+<td>x86, ARM (v1.24 or later, only), GPU</td>
+</tr>
+<tr class="even">
+<td><span id="GI_ToolsForDevelopers" class="anchor"></span>Tools for developers</td>
+<td><p>Oracle provided tools:</p>
+<ul>
+<li><p><a href="https://docs.public.oneportal.content.oci.oraclecloud.com/iaas/api/#/en/containerengine/">Container Engine API</a></p></li>
+<li><p><a href="https://docs.public.oneportal.content.oci.oraclecloud.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/ce.html">Container Engine CLI</a></p></li>
+<li><p><a href="https://docs.public.oneportal.content.oci.oraclecloud.com/iaas/Content/API/Concepts/sdks.htm">SDKs and CLI</a> (<strong>SDKs</strong>: Java, Python, TypeScript and JavaScript, .NET, Go, Ruby, PL/SQL)</p></li>
+<li><p><a href="https://docs.public.oneportal.content.oci.oraclecloud.com/iaas/Content/API/Concepts/devcloudshellintro.htm">Cloud shell</a> / Code Editor</p></li>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/visualstudio_using.htm">Oracle Developer tools for Visual Studio</a></p></li>
+</ul>
+<p>Oracle customers can take full advantage of the K8s ecosystem - <a href="https://loft.sh/blog/kubernetes-statefulset-examples-and-best-practices/">Loft</a>, <a href="https://www.okteto.com/">Okteto</a>, <a href="https://blogs.oracle.com/developers/post/strengthen-your-developer-experience-and-deployment-velocity-with-oke-and-shipa-cloud">Shipa.io</a>, <a href="https://www.telepresence.io/docs/v1/discussion/overview/">Telepresence</a></p>
+<ul>
+<li><p>Helm/Helm charts</p></li>
+<li><p><a href="https://www.ateam-oracle.com/post/continuous-deployments-with-skaffold-on-oracle-cloud-infrastructure-container-engine-for-kubernetes-oke">Skaffold</a></p></li>
+<li><p><a href="https://oracle.github.io/learning-library/developer-library/cloud-native/oke-with-service-broker/workshops/oke-live-devops/freetier/?lab=kustomize">Kustomize</a> (<a href="https://oracle.github.io/learning-library/developer-library/cloud-native/oke-with-service-broker/workshops/oke-live-devops/freetier/?lab=skaffold">works with Skaffold</a>)</p></li>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/releasenotes/changes/0680c077-6857-4d7b-a51a-0ab245112572/">Terraform</a></p></li>
+</ul></td>
+<td><p>AWS Toolkit for VS Code supports ECR and ECS, but not EKS</p>
+<p>AWS CloudShell</p>
+<p>AWS CloudFormation</p>
+<p>AWS SDKs and CLI</p>
+<p>Full support for entire K8s ecosystem.</p></td>
+<td><ul>
+<li><p><strong>Kubernetes extension in VS Code</strong>.</p></li>
+<li><p><a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwiysqvAouL5AhVRDkQIHVHjC9AQFnoECBMQAQ&amp;url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fvisualstudio%2Fbridge%2Foverview-bridge-to-kubernetes&amp;usg=AOvVaw050ESgeAy8CRGAkOvEd2IO"><strong>Bridge to Kubernete</strong>s</a> which allows execution of local code as a service in a cluster. It also, replicates dependencies in a local environment.</p></li>
+</ul></td>
+<td><p>Google offers either Cloud Code or the VS Code extension to deploy, monitor, and control clusters directly in IDE.</p>
+<p>Integrates with <strong>Cloud Run</strong> and <strong>Cloud Run for Anthos</strong>.</p></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="servicelimits"><strong>Service Limits</strong></h2>
+
+<p>Quick reference</p>
+
+<ul>
+<li><a href="#SL_MaxClusters">Max clusters</a></li>
+<li><a href="#SL_MaxNodesCluster">Max nodes per cluster</a></li>
+<li><a href="#SL_MaxNodesNodePool">Max nodes per node pool/group</a></li>
+<li><a href="#SL_MaxNodePoolsCluster">Max node pools/groups per cluster</a></li>
+<li><a href="#SL_MaxPodsNode">Max pods/node</a></li>
+</ul>
+<table>
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 18%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Service/Provider</strong></th>
+<th><strong>OKE</strong></th>
+<th>EKS</th>
+<th>AKS</th>
+<th>GKE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span id="SL_MaxClusters" class="anchor"></span>Max clusters</td>
+<td><p><a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm">15 clusters/region (Monthly Universal Credits) or 1 cluster/region (Pay-as-You-Go or Promo) by default</a></p>
+<p>Limits can be increased through service request</p></td>
+<td><a href="https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html"><u>100/region</u></a></td>
+<td>5000 per subscription</td>
+<td><a href="https://cloud.google.com/kubernetes-engine/quotas"><u>100/zone + 100 regional clusters</u></a></td>
+</tr>
+<tr class="even">
+<td><span id="SL_MaxNodesCluster" class="anchor"></span>Max nodes per cluster</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">Each cluster you create can have a maximum of 1000 nodes</a></td>
+<td><a href="https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html"><u>30 (Managed node groups) * 100 (Max nodes per group) = 3000</u></a></td>
+<td><ul>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-kubernetes-service-limits"><u>5000 (Virtual Machine Scale Sets)</u></a></p></li>
+<li><p>1000 (VM Availability Sets)</p></li>
+</ul></td>
+<td><ul>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/quotas"><u>15,000 nodes (v1.18 required)</u></a></p></li>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/quotas#limits_per_clus_er"><u>5000 nodes (v1.17 or lower)</u></a></p></li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td><span id="SL_MaxNodesNodePool" class="anchor"></span>Max nodes per node pool/group</td>
+<td>1000</td>
+<td>Managed node groups: 100</td>
+<td><u><a href="https://docs.microsoft.com/en-us/azure/aks/quotas-skus-regions">100</a>0</u></td>
+<td><a href="https://cloud.google.com/kubernetes-engine/quotas"><u>1000</u></a></td>
+</tr>
+<tr class="even">
+<td><span id="SL_MaxNodePoolsCluster" class="anchor"></span>Max node pools/groups per cluster</td>
+<td>No limit on number of node pools as long as total nodes per cluster does not exceed 1,000</td>
+<td>Managed node groups: 30</td>
+<td><a href="https://docs.microsoft.com/en-us/azure/aks/quotas-skus-regions"><u>100</u></a></td>
+<td>Not documented</td>
+</tr>
+<tr class="odd">
+<td><span id="SL_MaxPodsNode" class="anchor"></span>Max pods per node</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">110 pods/node</a></td>
+<td><p><strong>Linux:</strong></p>
+<ul>
+<li><p><a href="https://medium.com/faun/aws-eks-and-pods-sizing-per-node-considerations-964b08dcfad3"><u>Varies by node instance type</u></a>: <em>((# of IPs per Elastic Network Interface - 1) * # of ENIs) + 2</em></p></li>
+</ul>
+<p><strong>Windows:</strong></p>
+<ul>
+<li><p><em># of IPs per ENI - 1</em></p></li>
+</ul></td>
+<td><ul>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/aks/quotas-skus-regions"><u>250 (Azure CNI, max, configured at cluster creation time)</u></a></p></li>
+<li><p>110 (kubenet network)</p></li>
+<li><p>30 (Azure CNI, default)</p></li>
+</ul></td>
+<td><a href="https://cloud.google.com/kubernetes-engine/docs/best-practices/scalability"><u>110 (default)</u></a></td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="networkingandsecurity"><strong>Networking and Security</strong></h2>
+
+<p>Quick reference</p>
+
+<ul>
+<li><a href="#NS_NetworkPlugin">Network plugin/CNI</a></li>
+<li><a href="#NS_RBAC">Kubernetes RBAC</a></li>
+<li><a href="#NS_NetworkPolicy">Network policy</a></li>
+<li><a href="#NS_PodSecurityPolicy">Pod Security Admission Controller</a></li>
+<li><a href="#NS_IPforCluster">Private or public IP address for cluster Kubernetes API</a></li>
+<li><a href="#NS_IPforNodes">Private or Public IP addresses for nodes</a></li>
+<li><a href="#NS_EncryptedPodTraffic">Pod-to-pod traffic encryption supported by provider</a></li>
+<li><a href="#NS_ClusterFirewall">Firewall for cluster Kubernetes API</a></li>
+<li><a href="#NS_ROrootFS">Read-only root filesystem on node</a></li>
+<li><a href="#NS_General">General</a></li>
+</ul>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 29%" />
+<col style="width: 17%" />
+<col style="width: 15%" />
+<col style="width: 17%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Service/Provider</th>
+<th><strong>OKE</strong></th>
+<th>EKS</th>
+<th>AKS</th>
+<th>GKE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span id="NS_NetworkPlugin" class="anchor"></span>Network plugin/CNI</td>
+<td><ul>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengpodnetworking_topic-OCI_CNI_plugin.htm">OCI VCN-Native Pod Networking</a></p></li>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengpodnetworking_topic-flannel_CNI_plugin.htm">Flannel Overlay</a></p></li>
+<li><p>Supports <a href="https://developer.oracle.com/tutorials/calico-with-oke/">Calico</a> network policy</p></li>
+</ul></td>
+<td><ul>
+<li><p><a href="https://docs.aws.amazon.com/eks/latest/userguide/pod-networking.html">Amazon VPC Container Network Interface (CNI)</a></p></li>
+<li><p><a href="https://projectcalico.docs.tigera.io/getting-started/kubernetes/managed-public-cloud/eks">Calico</a></p></li>
+<li><p><a href="https://docs.aws.amazon.com/eks/latest/userguide/alternate-cni-plugins.html">Alternate compatible CNI plugins</a></p></li>
+</ul></td>
+<td><ul>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/aks/configure-azure-cni">Azure CNI kubenet</a></p></li>
+<li><p><a href="https://projectcalico.docs.tigera.io/getting-started/kubernetes/managed-public-cloud/aks">Calico</a></p></li>
+<li><p><a href="https://learn.microsoft.com/en-us/azure/aks/use-byo-cni?tabs=azure-cli">Alternate compatible CNI plugins</a></p></li>
+</ul></td>
+<td><ul>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/network-overview"><u>kubenet</u></a> (default)</p></li>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/network-overview"><u>Calico</u></a> (<a href="https://projectcalico.docs.tigera.io/getting-started/kubernetes/managed-public-cloud/gke">Additional Details</a>)</p></li>
+</ul></td>
+</tr>
+<tr class="even">
+<td><span id="NS_RBAC" class="anchor"></span>Kubernetes RBAC</td>
+<td><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutaccesscontrol.htm"><strong>Not assigned by default</strong></a></p>
+<p><em>Mutable after cluster creation</em></p>
+<p>(<a href="#Note_NS_RBAC_01">note</a>; <a href="#Note_NS_RBAC_02">note</a>; <a href="#Note_NS_RBAC_03">note</a>)</p></td>
+<td><p>Required</p>
+<p><em>Immutable after cluster creation</em></p></td>
+<td><p>Enabled by default</p>
+<p><em>Immutable after cluster creation</em></p></td>
+<td><p>Enabled by default</p>
+<p><em>Mutable after cluster creation</em></p></td>
+</tr>
+<tr class="odd">
+<td><span id="NS_NetworkPolicy" class="anchor"></span>Kubernetes Network Policy</td>
+<td><ul>
+<li><p>Not enabled by default</p></li>
+<li><p>Calico can be manually installed at any time – can be installed alongside the CNI plugin (<a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengsettingupcalico.htm">source</a>)</p></li>
+</ul></td>
+<td><ul>
+<li><p>Not enabled by default</p></li>
+<li><p><a href="https://docs.aws.amazon.com/eks/latest/userguide/calico.html"><u>Calico can be manually installed at any time</u></a></p></li>
+</ul></td>
+<td><ul>
+<li><p>Not enabled by default</p></li>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/aks/use-network-policies#create-an-aks-cluster-and-enable-network-policy"><u>Must be enabled at cluster creation time</u></a></p></li>
+</ul></td>
+<td><ul>
+<li><p>Not enabled by default</p></li>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy#enabling_network_policy_enforcement"><u>Can be enabled at any time</u></a></p></li>
+</ul></td>
+</tr>
+<tr class="even">
+<td><p><span id="NS_PodSecurityPolicy" class="anchor"></span>Pod Security Admission Controller (PSA)</p>
+<p>(<a href="#Note_NS_PDAC">note</a>)</p></td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Reference/contengadmissioncontrollers.htm">PodSecurity Admission Controller</a> is supported by all OKE versions.</td>
+<td><p>Enabled in EKS 1.23 by default.</p>
+<p>(<a href="https://aws.amazon.com/blogs/containers/implementing-pod-security-standards-in-amazon-eks/">read more</a>)</p></td>
+<td><p>Can be enabled in AKS clusters running K8s 1.23 or higher</p>
+<p>(<a href="https://learn.microsoft.com/en-us/azure/aks/use-psa">read more</a>)</p></td>
+<td><p>Available and enabled by default in GKE 1.25 (stable), 1.23 &amp; 1.24 (beta)</p>
+<p>(<a href="https://cloud.google.com/kubernetes-engine/docs/how-to/migrate-podsecuritypolicy">read more</a>)</p></td>
+</tr>
+<tr class="odd">
+<td><span id="NS_IPforCluster" class="anchor"></span>Private or public IP address for cluster Kubernetes API</td>
+<td><ul>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke_topic-Using_the_Console_to_create_a_Custom_Cluster_with_Explicitly_Defined_Settings.htm">Private</a> by default</p></li>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengclustersnodes.htm#processes">Optional public</a>, hybrid, or private<br>(<a href="#Note_NS_IPforCluster">note</a>)</p></li>
+</ul></td>
+<td><ul>
+<li><p>Public by default</p></li>
+<li><p><a href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html"><u>Optional public, hybrid or private setup</u></a></p></li>
+</ul></td>
+<td><ul>
+<li><p>Public by default</p></li>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/aks/private-clusters"><u>Private-only available where private link is supported</u></a></p></li>
+</ul></td>
+<td><ul>
+<li><p>Public by default</p></li>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters#endpoints"><u>Optional public, hybrid or private setup</u></a></p></li>
+</ul></td>
+</tr>
+<tr class="even">
+<td><span id="NS_IPforNodes" class="anchor"></span>Private or Public IP addresses for nodes</td>
+<td><ul>
+<li><p>Worker nodes can be public or private, depending on VCN Subnet configuration</p></li>
+</ul></td>
+<td><ul>
+<li><p>Unmanaged node groups: <a href="https://aws.amazon.com/blogs/containers/upcoming-changes-to-ip-assignment-for-eks-managed-node-groups/"><u>Optional</u></a></p></li>
+<li><p>Managed node groups: <a href="https://aws.amazon.com/blogs/containers/upcoming-changes-to-ip-assignment-for-eks-managed-node-groups/"><u>Optional</u></a></p></li>
+</ul></td>
+<td><ul>
+<li><p>Public by default</p></li>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/aks/private-clusters"><u>Private can be enabled as well</u></a></p></li>
+</ul></td>
+<td><ul>
+<li><p>Public by default</p></li>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters"><u>Private can be enabled as well</u></a></p></li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td><span id="NS_EncryptedPodTraffic" class="anchor"></span>Pod-to-pod traffic encryption supported by provider</td>
+<td><ul>
+<li><p>Yes, <a href="https://docs.oracle.com/en/solutions/oci-service-mesh-oke/index.html#GUID-C2C31164-55E2-442A-94D6-92EE5ADB2D86">OCI service mesh</a></p></li>
+<li><p>And <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengistio-intro-topic.htm">with Istio implemented</a></p></li>
+</ul></td>
+<td>Yes, with <a href="https://docs.aws.amazon.com/app-mesh/latest/userguide/getting-started-kubernetes.html">AWS App Mesh</a></td>
+<td>Open Service Mesh as an add-on</td>
+<td>Yes, with <a href="https://cloud.google.com/istio/docs/istio-on-gke/migrate-to-anthos-service-mesh">Anthos Service Mesh</a></td>
+</tr>
+<tr class="even">
+<td><span id="NS_ClusterFirewall" class="anchor"></span>Firewall for cluster Kubernetes API</td>
+<td><ul>
+<li><p>CIDR allow list option</p></li>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengcidrblocks.htm">CIDR blocks and OKE</a></p></li>
+</ul></td>
+<td>CIDR allow list option</td>
+<td>CIDR allow list option</td>
+<td>CIDR allow list option</td>
+</tr>
+<tr class="odd">
+<td><span id="NS_ROrootFS" class="anchor"></span>Read-only root filesystem on node</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingpspswithoke.htm">Pod security policy required</a></td>
+<td><a href="https://aws.amazon.com/blogs/opensource/using-pod-security-policies-amazon-eks-clusters/"><u>Pod security policy required</u></a></td>
+<td><a href="https://docs.microsoft.com/en-us/azure/aks/policy-reference"><u>Azure policy required</u></a></td>
+<td><ul>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/node-images#file_system_layout"><u>COS: default</u></a></p></li>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies"><u>Alternative: Pod security policy required</u></a></p></li>
+</ul></td>
+</tr>
+</tbody>
+</table>
+
+<p><span id="NS_General" class="anchor"></span></p>
+
+<h2 id="containerimageservices">Container Image Services</h2>
+
+<p>Quick Reference</p>
+
+<ul>
+<li><a href="#CIS_ImageRespositoryService">Image repository service</a></li>
+<li><a href="#CIS_SupportedFormats">Supported formats</a></li>
+<li><a href="#CIS_AccessSecurity">Access security</a></li>
+<li><a href="#CIS_SupportedImageSigning">Supported Image Signing</a></li>
+<li><a href="#CIS_SupportsImmutableImageTags">Supports Immutable Image Tags</a></li>
+<li><a href="#CIS_ImageScanningService">Image scanning service</a></li>
+<li><a href="#CIS_RegistrySLA">Registry SLA</a></li>
+<li><a href="#CIS_GeoRedundancy">Georedundancy</a></li>
+</ul>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 17%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th></th>
+<th><strong>OKE</strong></th>
+<th>EKS</th>
+<th>AKS</th>
+<th>GKE</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span id="CIS_ImageRespositoryService" class="anchor"></span>Image repository service</td>
+<td><a href="https://www.oracle.com/cloud/cloud-native/container-registry/">OCI Container Registry</a></td>
+<td>ECR (Elastic Container Registry)</td>
+<td>ACR (Azure Container Registry)</td>
+<td>AR (Artifact Registry)</td>
+</tr>
+<tr class="even">
+<td><span id="CIS_SupportedFormats" class="anchor"></span>Supported formats</td>
+<td><ul>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/Registry/Concepts/registryoverview.htm">Docker images</a></p></li>
+<li><p>OCI Specifications</p></li>
+<li><p>Helm charts</p></li>
+<li><p><a href="https://docs.docker.com/registry/spec/manifest-v2-2/">Docker Image Manifest V2, Schema 2</a> (<a href="https://docs.oracle.com/en-us/iaas/releasenotes/changes/a3a9f4e6-76bf-4a5a-b227-d46a76cbfba2/">source</a>)</p></li>
+</ul></td>
+<td><ul>
+<li><p><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-manifest-formats.html"><u>Docker Image Manifest V2, Schema 1</u></a></p></li>
+<li><p><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-manifest-formats.html"><u>Docker Image Manifest V2, Schema 2</u></a></p></li>
+<li><p><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-manifest-formats.html"><u>Open Container Initiative (OCI) Specifications</u></a></p></li>
+<li><p><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-manifest-formats.html"><u>Helm Charts</u></a></p></li>
+</ul></td>
+<td><ul>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/container-registry/container-registry-image-formats"><u>Docker Image Manifest V2, Schema 1</u></a></p></li>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/container-registry/container-registry-image-formats"><u>Docker Image Manifest V2, Schema 2</u></a></p></li>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/container-registry/container-registry-image-formats"><u>Open Container Initiative (OCI) Specifications</u></a></p></li>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/container-registry/container-registry-image-formats"><u>Helm Charts</u></a></p></li>
+</ul></td>
+<td><ul>
+<li><p><a href="https://cloud.google.com/container-registry/docs/image-formats"><u>Docker Image Manifest V2, Schema 1</u></a></p></li>
+<li><p><a href="https://cloud.google.com/container-registry/docs/image-formats"><u>Docker Image Manifest V2, Schema 2</u></a></p></li>
+<li><p><a href="https://cloud.google.com/container-registry/docs/image-formats"><u>Open Container Initiative (OCI) Specifications</u></a></p></li>
+<li><p><a href="https://cloud.google.com/artifact-registry/docs/java/quickstart"><u>Maven and Gradle</u></a></p></li>
+<li><p><a href="https://cloud.google.com/artifact-registry/docs/nodejs/quickstart"><u>npm</u></a></p></li>
+</ul></td>
+</tr>
+<tr class="odd">
+<td><span id="CIS_AccessSecurity" class="anchor"></span>Access security</td>
+<td><ul>
+<li><p>Permissions managed by Oracle <a href="https://www.oracle.com/security/identity-management/">IAM</a></p></li>
+<li><p>Can be applied at the repository level</p></li>
+<li><p>Network endpoint is public by default</p></li>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/Identity/Tasks/managingnetworksources.htm">Network Source can be limited to specific IP addresses / ranges</a></p></li>
+</ul></td>
+<td><ul>
+<li><p>Permissions managed by AWS IAM</p></li>
+<li><p><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/security_iam_id-based-policy-examples.html"><u>Permissions can be applied at repository level</u></a></p></li>
+<li><p>Network endpoint is public by default</p></li>
+<li><p><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/vpc-endpoints.html"><u>Network endpoint can be limited to specific VPCs</u></a></p></li>
+</ul></td>
+<td><ul>
+<li><p>Permissions managed by Azure RBAC</p></li>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/container-registry/container-registry-repository-scoped-permissions"><u>Can be applied at repository level</u></a> (<em>preview</em>)</p></li>
+<li><p>Network endpoint is public by default</p></li>
+<li><p><a href="https://docs.microsoft.com/en-us/azure/container-registry/container-registry-vnet"><u>Network endpoint can be limited to specific VNets</u></a> (<em>preview</em>)</p></li>
+</ul></td>
+<td><ul>
+<li><p>Permissions managed by GCP IAM</p></li>
+<li><p><a href="https://cloud.google.com/container-registry/docs/access-control#service-account"><u>Permissions can only be applied at registry level</u></a></p></li>
+<li><p>Network endpoint is public by default</p></li>
+<li><p><a href="https://cloud.google.com/container-registry/docs/securing-with-vpc-sc"><u>Network access for GCR registries can be limited to specific VPCs with service perimeters</u></a></p></li>
+</ul></td>
+</tr>
+<tr class="even">
+<td><span id="CIS_SupportedImageSigning" class="anchor"></span>Supports image signing</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/Registry/Tasks/registrysigningimages_topic.htm">Yes</a></td>
+<td>No</td>
+<td><a href="https://cloud.google.com/container-registry/docs/securing-with-vpc-sc"><u>Yes</u></a></td>
+<td>Yes, with <a href="https://cloud.google.com/binary-authorization/docs/overview"><u>Binary Authorization</u></a> and <a href="https://cloud.google.com/binary-authorization/docs/creating-attestations-voucher"><u>Voucher</u></a></td>
+</tr>
+<tr class="odd">
+<td><span id="CIS_SupportsImmutableImageTags" class="anchor"></span>Supports immutable image tags</td>
+<td><p><a href="https://docs.oracle.com/en-us/iaas/Content/artifacts/overview.htm">Yes</a>, and supports:</p>
+<ul>
+<li><p>Identifying them with secure hashes</p></li>
+<li><p>Adding versions</p></li>
+<li><p>Controlling visibility and permissions</p></li>
+</ul></td>
+<td><a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-tag-mutability.html"><u>Yes</u></a></td>
+<td><a href="https://azure.microsoft.com/en-ca/updates/azure-container-registry-tag-locking-policy-is-now-generally-available/"><u>Yes</u></a>, and it <a href="https://docs.microsoft.com/en-us/azure/container-registry/container-registry-image-lock"><u>supports the locking of images and repositories</u></a></td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td><span id="CIS_ImageScanningService" class="anchor"></span>Image scanning service</td>
+<td><p><a href="https://docs.oracle.com/en-us/iaas/scanning/using/managing-image-targets.htm">Yes</a>, <a href="https://www.oracle.com/security/cloud-security/vulnerability-scanning-service/"><strong>Oracle Vulnerability Scanning Service</strong></a></p>
+<p>(<a href="#Note_CIS_ImageScanningService_01">note</a>)</p></td>
+<td>Yes, <a href="https://docs.aws.amazon.com/AmazonECR/latest/userguide/image-scanning.html"><u>free service: OS packages only</u></a></td>
+<td>Yes, <a href="https://docs.microsoft.com/en-us/azure/security-center/azure-container-registry-integration"><u>paid service</u></a>: Uses the <a href="https://www.qualys.com/apps/container-security/"><u>Qualys scanner</u></a> in a sandbox to check for vulnerabilities</td>
+<td>Yes, <a href="https://cloud.google.com/container-registry/docs/vulnerability-scanning"><u>paid Service: OS packages only</u></a></td>
+</tr>
+<tr class="odd">
+<td><span id="CIS_RegistrySLA" class="anchor"></span>Registry SLA</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/General/Reference/servicelevelobjectives.htm">99.9% SLO</a></td>
+<td><a href="https://aws.amazon.com/ecr/sla/"><u>99.9%; financially backed</u></a></td>
+<td><a href="https://azure.microsoft.com/en-us/support/legal/sla/container-registry/v1_1/"><u>99.9%; financially backed</u></a></td>
+<td><a href="https://cloud.google.com/container-registry/sla"><u>None</u></a></td>
+</tr>
+<tr class="even">
+<td><span id="CIS_GeoRedundancy" class="anchor"></span>Geo-Redundancy</td>
+<td>No</td>
+<td>Yes, <a href="https://aws.amazon.com/blogs/containers/cross-region-replication-in-amazon-ecr-has-landed/"><u>configurable</u></a></td>
+<td>Yes, <a href="https://docs.microsoft.com/en-us/azure/container-registry/container-registry-geo-replication"><u>configurable as part of the premium service</u></a></td>
+<td>Yes, by default</td>
+</tr>
+</tbody>
+</table>
+
+<h2 id="notes">Notes</h2>
+
+<h3 id="generalinformation">General Information</h3>
+
+<h4 id="(null)"><a href="#GI_NodeOS">Node OS</a></h4>
+
+<ul>
+<li><span id="Note_GI_NodeOS_01" class="anchor"></span><strong>(note 1)</strong> some, but not all, of the latest Oracle Linux images provided by Oracle Cloud Infrastructure</li>
+</ul>
+
+<p><strong>Note:</strong> “Docker is not included in Oracle Linux 8 images. Instead, in node pools running Kubernetes 1.20.x and later, Container Engine for Kubernetes installs and uses the CRI-O container runtime and the crictl CLI (for more information, see Notes about Container Engine for Kubernetes Support for Kubernetes Version 1.20).”</p>
+
+<ul>
+<li><p><span id="Note_GI_NodeOS_02" class="anchor"></span><strong>(note 2)</strong> OKE images are provided by Oracle and built on top of platform images. OKE images are optimized for use as worker node base images, with all the necessary configurations and required software</p></li>
+<li><p><strong>(note 3)</strong> Custom images are provided by you and can be based on both supported platform images and OKE images. Custom images contain Oracle Linux operating systems, along with other customizations, configuration, and software that were present when you created the image.</p></li>
+</ul>
+
+<h3 id="servicelimits">Service Limits</h3>
+
+<h3 id="networkingandsecurity">Networking and Security</h3>
+
+<h4 id="rbackubernetesrbac"><a href="#NS_RBAC">RBAC</a></h4>
+
+<ul>
+<li><p><span id="Note_NS_RBAC_01" class="anchor"></span><strong>(note 1)</strong> “<strong>By default, users are not assigned any Kubernetes RBAC roles (or clusterroles).</strong> Before attempting to create a new role (or clusterrole), you must be assigned an appropriately privileged role (or clusterrole). A number of such roles and clusterroles are always created by default, including the cluster-admin clusterrole (for a full list, see Default Roles and Role Bindings in the Kubernetes documentation). The cluster-admin clusterrole essentially confers super-user privileges. A user granted the cluster-admin clusterrole can perform any operation across all namespaces in a given cluster.” (<a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutaccesscontrol.htm">source</a>)</p></li>
+<li><p><span id="Note_NS_RBAC_02" class="anchor"></span><strong>(note 2)</strong> “For most operations on Kubernetes clusters created and managed by Container Engine for Kubernetes, <strong>Oracle Cloud Infrastructure Identity and Access Management (IAM)</strong> provides access control.” (<a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutaccesscontrol.htm">source</a>)</p></li>
+<li><p><span id="Note_NS_RBAC_03" class="anchor"></span><strong>(note 3)</strong> “In addition to IAM, the Kubernetes RBAC Authorizer can enforce additional fine-grained access control for users on specific clusters via Kubernetes RBAC roles and clusterroles.” (<a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutaccesscontrol.htm">source</a>)</p></li>
+</ul>
+
+<h4 id="podsecurityadmissioncontroller"><a href="#NS_PodSecurityPolicy">Pod Security</a></h4>
+
+<ul>
+<li><p><span id="Note_NS_PDAC" class="anchor"></span><strong>(note 1) Kubernetes Pod Security Policy will be deprecated starting with Kubernetes version 1.21, and will be removed entirely in version 1.25.</strong> Recommended best practice is to migrate pod security policy to pod security admission controller before the deprecation deadline.</li>
+</ul>
+
+<h4 id="clusterpubprivips"><a href="#NS_IPforCluster">Private or public IP Address for Clusters</a></h4>
+
+<ul>
+<li><p><span id="Note_NS_IPforCluster" class="anchor"></span><strong>(note 1)</strong> “You access the Kubernetes API on the cluster control plane through an endpoint hosted in a subnet of your VCN. This Kubernetes API endpoint subnet can be a private or public subnet. If you specify a public subnet for the Kubernetes API endpoint, you can optionally assign a public IP address to the Kubernetes API endpoint (in addition to the private IP address). You control access to the Kubernetes API endpoint subnet using security rules defined for security lists or network security groups.”</p></li>
+</ul>
+
+<h3 id="containerimageservices">Container Image Services</h3>
+
+<h4 id="(null)"><a href="#CIS_ImageScanningService">Image scanning service</a></h4>
+
+<ul>
+<li><span id="Note_CIS_ImageScanningService_01" class="anchor"></span><strong>(note 1)</strong> “Create and manage container image targets and to assign them to container image scan recipes. A container image target is a collection of repositories in <a href="https://www.oracle.com/cloud/cloud-native/container-registry/">Container Registry</a> that you want scanned for security vulnerabilities.”</li>
+</ul>
+
+<h2 id="references"><strong>References</strong></h2>
+
+<ul>
+<li><p>(<a href="https://www.stackrox.io/blog/eks-vs-gke-vs-aks-jan2021/">StackRox</a>) EKS vs GKE vs AKS - Evaluating Kubernetes in the Cloud</p></li>
+<li><p>(<a href="https://itoutposts.com/blog/kubernetes-engines-compared-full-guide/">itoutposts</a>) Kubernetes Engines Compared: Full Guide</p></li>
+<li><p>(<a href="https://www.veritis.com/blog/eks-vs-aks-vs-gke-which-is-the-right-kubernetes-platform-for-you/">veritis</a>) EKS Vs. AKS Vs. GKE: Which is the right Kubernetes platform for you?</p></li>
+<li><p>(<a href="https://www.kloia.com/blog/comparison-of-the-kubernetes-engines">kloia</a>) Comparison of Kubernetes Engines</p></li>
+</ul>
+<!-- ##END MARKED WRAPPER## -->
+    </div>
+</body>
+</html>

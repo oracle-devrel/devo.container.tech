@@ -3,8 +3,15 @@ title: Kubernetes: A comparison of managed engines
 description: An extensive comparison of the four most prolific managed Kubernetes offerings.
 author:
   name: Eli Schilling
+  bio: Oracle DevRel Advocate, cloud native app dev and DevOps.
+  github: https://github.com/oracle-devrel
+  youtube: https://www.youtube.com/c/oracledevs/playlists
+  email: eli.schilling@oracle.com
 parent: [tutorials]
+categories: [cloudapps, clouddev, modernize, enterprise]
 date: 2023-01-23 08:00
+modified: 2023-01-31 08:00
+
 ---
 
 ## **General Information**
@@ -84,7 +91,7 @@ Quick reference
 <td>August 2015</td>
 </tr>
 <tr class="even">
-<td>Pricing</td>
+<td><span id="GI_Pricing" class="anchor"></span>Pricing</td>
 <td>All management costs are <a href="https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm">free</a></td>
 <td><a href="https://aws.amazon.com/eks/pricing/"><u>$0.10/hour (USD)</u></a> per cluster + standard costs of EC2 instances and other resources</td>
 <td><a href="https://azure.microsoft.com/en-ca/pricing/details/kubernetes-service/"><u>Pay-as-you-go</u></a>: Standard costs of node VMs and other resources</td>
@@ -595,9 +602,8 @@ Quick reference
 <td><span id="NS_IPforCluster" class="anchor"></span>Private or public IP address for cluster Kubernetes API</td>
 <td><ul>
 <li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke_topic-Using_the_Console_to_create_a_Custom_Cluster_with_Explicitly_Defined_Settings.htm">Private</a> by default</p></li>
-<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengclustersnodes.htm#processes">Optional public</a>, hybrid, or private</p></li>
-</ul>
-<p>(<a href="\l">note</a>)</p></td>
+<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengclustersnodes.htm#processes">Optional public</a>, hybrid, or private</p><p>(<a href="#Note_NS_IPforCluster">note</a>)</p></li></ul>
+</td>
 <td><ul>
 <li><p>Public by default</p></li>
 <li><p><a href="https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html"><u>Optional public, hybrid or private setup</u></a></p></li>
@@ -805,7 +811,7 @@ Quick Reference
 
 ### General Information
 
-#### [Node OS][]
+#### [Node OS]
 
 -   <span id="Note_GI_NodeOS_01" class="anchor"></span>**(note 1)** some, but not all, of the latest Oracle Linux images provided by Oracle Cloud Infrastructure
 
@@ -821,11 +827,13 @@ Quick Reference
 
 #### [RBAC][Kubernetes RBAC]
 
--   <span id="Note_NS_RBAC_01" class="anchor"></span>**(note 1)** “**By default, users are not assigned any Kubernetes RBAC roles (or clusterroles).** Before attempting to create a new role (or clusterrole), you must be assigned an appropriately privileged role (or clusterrole). A number of such roles and clusterroles are always created by default, including the cluster-admin clusterrole (for a full list, see Default Roles and Role Bindings in the Kubernetes documentation). The cluster-admin clusterrole essentially confers super-user privileges. A user granted the cluster-admin clusterrole can perform any operation across all namespaces in a given cluster.” ([source])
+-   <span id="Note_NS_RBAC_01" class="anchor"></span>**(note 1)** “**By default, users are not assigned any Kubernetes RBAC roles (or clusterroles).** Before attempting to create a new role (or clusterrole), you must be assigned an appropriately privileged role (or clusterrole). A number of such roles and clusterroles are always created by default, including the cluster-admin clusterrole (for a full list, see Default Roles and Role Bindings in the Kubernetes documentation). The cluster-admin clusterrole essentially confers super-user privileges. A user granted the cluster-admin clusterrole can perform any operation across all namespaces in a given cluster.” ([source][RBAC_source1])
 
--   <span id="Note_NS_RBAC_02" class="anchor"></span>**(note 2)** “For most operations on Kubernetes clusters created and managed by Container Engine for Kubernetes, **Oracle Cloud Infrastructure Identity and Access Management (IAM)** provides access control.” ([source])
+-   <span id="Note_NS_RBAC_02" class="anchor"></span>**(note 2)** “For most operations on Kubernetes clusters created and managed by Container Engine for Kubernetes, **Oracle Cloud Infrastructure Identity and Access Management (IAM)** provides access control.” ([source][RBAC_source1])
 
--   <span id="Note_NS_RBAC_03" class="anchor"></span>**(note 3)** “In addition to IAM, the Kubernetes RBAC Authorizer can enforce additional fine-grained access control for users on specific clusters via Kubernetes RBAC roles and clusterroles.” ([source])
+-   <span id="Note_NS_RBAC_03" class="anchor"></span>**(note 3)** “In addition to IAM, the Kubernetes RBAC Authorizer can enforce additional fine-grained access control for users on specific clusters via Kubernetes RBAC roles and clusterroles.” ([source][RBAC_source1])
+
+#### [Pod Security][Pod Security Admission Controller]
 
 <span id="NS_PodSecurityAdmissionController" class="anchor"></span>Pod Security
 
@@ -833,7 +841,7 @@ Quick Reference
 
 #### [Private or public IP Address for Clusters][Private or public IP address for cluster Kubernetes API]
 
--   **(note 1)** “You access the Kubernetes API on the cluster control plane through an endpoint hosted in a subnet of your VCN. This Kubernetes API endpoint subnet can be a private or public subnet. If you specify a public subnet for the Kubernetes API endpoint, you can optionally assign a public IP address to the Kubernetes API endpoint (in addition to the private IP address). You control access to the Kubernetes API endpoint subnet using security rules defined for security lists or network security groups.”
+-   <span id="Note_NS_IPforCluster" class="anchor"></span>**(note 1)** “You access the Kubernetes API on the cluster control plane through an endpoint hosted in a subnet of your VCN. This Kubernetes API endpoint subnet can be a private or public subnet. If you specify a public subnet for the Kubernetes API endpoint, you can optionally assign a public IP address to the Kubernetes API endpoint (in addition to the private IP address). You control access to the Kubernetes API endpoint subnet using security rules defined for security lists or network security groups.”
 
 ### Container Image Services
 
@@ -855,7 +863,7 @@ Quick Reference
   [Currently supported Kubernetes version(s)]: #GI_CurrentKs8Version
   [\# of supported minor version releases]: #GI_SupportedMinorVersions
   [Original GA release date]: #GI_ReleaseDate
-  [Pricing]: \l
+  [Pricing]: #GI_Pricing
   [CNCF Kubernetes Conformance]: #GI_CNCFconformance
   [CLI support]: #GI_CNCFcertifiedVersion
   [Control-plane upgrade process]: #GI_ControlPlaneUpgradeProcess
@@ -899,7 +907,7 @@ Quick Reference
   [Image scanning service]: #CIS_ImageScanningService
   [Registry SLA]: #CIS_RegistrySLA
   [Georedundancy]: #CIS_GeoRedundancy
-  [source]: https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutaccesscontrol.htm
+  [RBAC_source1]: https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutaccesscontrol.htm
   [Container Registry]: https://www.oracle.com/cloud/cloud-native/container-registry/
   [StackRox]: https://www.stackrox.io/blog/eks-vs-gke-vs-aks-jan2021/
   [itoutposts]: https://itoutposts.com/blog/kubernetes-engines-compared-full-guide/

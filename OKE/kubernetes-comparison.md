@@ -1,11 +1,11 @@
 ---
-title: Kubernetes: A comparison of managed engines
+title: "Kubernetes: A comparison of managed engines"
 description: An extensive comparison of the four most prolific managed Kubernetes offerings.
 author:
   name: Eli Schilling
   bio: Oracle DevRel Advocate, cloud native app dev and DevOps.
-  github: https://github.com/oracle-devrel
-  youtube: https://www.youtube.com/c/oracledevs/playlists
+  github: "https://github.com/oracle-devrel"
+  youtube: "https://www.youtube.com/c/oracledevs/playlists"
   email: eli.schilling@oracle.com
 parent: [tutorials]
 categories: [cloudapps, clouddev, modernize, enterprise]

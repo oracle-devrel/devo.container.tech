@@ -821,7 +821,7 @@ Quick Reference
 
     - **Azure**
 
-            az aks get-versions --location westus2 --query 'orchestrators[*].[orchestratorVersion,upgrades[*].orchestratorVersion]' --output table
+            az aks get-versions --location eastus --query 'orchestrators[*].[orchestratorVersion,upgrades[*].orchestratorVersion]' --output table
 
     - **AWS**
 

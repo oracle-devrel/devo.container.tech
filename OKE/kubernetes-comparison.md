@@ -812,19 +812,23 @@ Quick Reference
 
 ### General Information
 
-### [Supported K8s Versions][Currently Supported Kubernetes Version(s)]
+#### [Supported K8s Versions][Currently Supported Kubernetes Version(s)]
 - <span id="Note_GI_K8s_Versions" class="anchor"></span>**(note 1)** Kubernetes releases happen approximately three times per year and the typical patch cadence is monthly (though not uncommon to be every 1 to 2 weeks). The best way to determine exactly which versions are currently supported on a particular platform is to utilize the Command Line Interface (CLI) of that cloud provider. Example commands are as follows:
 
 -- **Oracle**
+
   oci ce cluster-options get --cluster-option-id all --query 'data."kubernetes-versions"'
 
 -- **Azure**
+
   az aks get-versions --location westus2 --query 'orchestrators[*].[orchestratorVersion,upgrades[*].orchestratorVersion]' --output table
 
 -- **AWS**
+
   aws eks describe-addon-versions --query 'addons[0].addonVersions[0].compatibilities[*].clusterVersion'
 
 -- **GCP** (Channel can be REGULAR, STABLE, or RAPID)
+
   gcloud container get-server-config --region us-east1 --flatten="channels" --filter="channels.channel=REGULAR" --format="yaml(channels.channel,channels.validVersions)"
 
 #### [Node OS]

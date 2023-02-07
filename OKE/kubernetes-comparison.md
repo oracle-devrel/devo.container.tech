@@ -815,27 +815,27 @@ Quick Reference
 #### [Supported K8s Versions][Currently Supported Kubernetes Version(s)]
 - <span id="Note_GI_K8s_Versions" class="anchor"></span>**(note 1)** Kubernetes releases happen approximately three times per year and the typical patch cadence is monthly (though not uncommon to be every 1 to 2 weeks). The best way to determine exactly which versions are currently supported on a particular platform is to utilize the Command Line Interface (CLI) of that cloud provider. Example commands are as follows:
 
-##### **Oracle**
+    - **Oracle**
 
-    oci ce cluster-options get --cluster-option-id all --query 'data."kubernetes-versions"'
+        oci ce cluster-options get --cluster-option-id all --query 'data."kubernetes-versions"'
 
-##### **Azure**
+    - **Azure**
 
-    az aks get-versions --location westus2 --query 'orchestrators[*].[orchestratorVersion,upgrades[*].orchestratorVersion]' --output table
+        az aks get-versions --location westus2 --query 'orchestrators[*].[orchestratorVersion,upgrades[*].orchestratorVersion]' --output table
 
-##### **AWS**
+    - **AWS**
 
-    aws eks describe-addon-versions --query 'addons[0].addonVersions[0].compatibilities[*].clusterVersion'
+        aws eks describe-addon-versions --query 'addons[0].addonVersions[0].compatibilities[*].clusterVersion'
 
-##### **GCP** (Channel can be REGULAR, STABLE, or RAPID)
+    - **GCP** (Channel can be REGULAR, STABLE, or RAPID)
 
-    gcloud container get-server-config --region us-east1 --flatten="channels" --filter="channels.channel=REGULAR" --format="yaml(channels.channel,channels.validVersions)"
+        gcloud container get-server-config --region us-east1 --flatten="channels" --filter="channels.channel=REGULAR" --format="yaml(channels.channel,channels.validVersions)"
 
 #### [Node OS]
 
 -   <span id="Note_GI_NodeOS_01" class="anchor"></span>**(note 1)** some, but not all, of the latest Oracle Linux images provided by Oracle Cloud Infrastructure
 
--- **i.e.:** “Docker is not included in Oracle Linux 8 images. Instead, in node pools running Kubernetes 1.20.x and later, Container Engine for Kubernetes installs and uses the CRI-O container runtime and the crictl CLI (for more information, see Notes about Container Engine for Kubernetes Support for Kubernetes Version 1.20).”
+    - **i.e.:** “Docker is not included in Oracle Linux 8 images. Instead, in node pools running Kubernetes 1.20.x and later, Container Engine for Kubernetes installs and uses the CRI-O container runtime and the crictl CLI (for more information, see Notes about Container Engine for Kubernetes Support for Kubernetes Version 1.20).”
 
 -   <span id="Note_GI_NodeOS_02" class="anchor"></span>**(note 2)** OKE images are provided by Oracle and built on top of platform images. OKE images are optimized for use as worker node base images, with all the necessary configurations and required software
 

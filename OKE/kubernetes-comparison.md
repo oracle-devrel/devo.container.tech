@@ -815,21 +815,21 @@ Quick Reference
 #### [Supported K8s Versions][Currently Supported Kubernetes Version(s)]
 - <span id="Note_GI_K8s_Versions" class="anchor"></span>**(note 1)** Kubernetes releases happen approximately three times per year and the typical patch cadence is monthly (though not uncommon to be every 1 to 2 weeks). The best way to determine exactly which versions are currently supported on a particular platform is to utilize the Command Line Interface (CLI) of that cloud provider. Example commands are as follows:
 
--- **Oracle**
+##### **Oracle**
 
-  oci ce cluster-options get --cluster-option-id all --query 'data."kubernetes-versions"'
+    oci ce cluster-options get --cluster-option-id all --query 'data."kubernetes-versions"'
 
--- **Azure**
+##### **Azure**
 
-  az aks get-versions --location westus2 --query 'orchestrators[*].[orchestratorVersion,upgrades[*].orchestratorVersion]' --output table
+    az aks get-versions --location westus2 --query 'orchestrators[*].[orchestratorVersion,upgrades[*].orchestratorVersion]' --output table
 
--- **AWS**
+##### **AWS**
 
-  aws eks describe-addon-versions --query 'addons[0].addonVersions[0].compatibilities[*].clusterVersion'
+    aws eks describe-addon-versions --query 'addons[0].addonVersions[0].compatibilities[*].clusterVersion'
 
--- **GCP** (Channel can be REGULAR, STABLE, or RAPID)
+##### **GCP** (Channel can be REGULAR, STABLE, or RAPID)
 
-  gcloud container get-server-config --region us-east1 --flatten="channels" --filter="channels.channel=REGULAR" --format="yaml(channels.channel,channels.validVersions)"
+    gcloud container get-server-config --region us-east1 --flatten="channels" --filter="channels.channel=REGULAR" --format="yaml(channels.channel,channels.validVersions)"
 
 #### [Node OS]
 
@@ -869,7 +869,9 @@ Quick Reference
 
 ## **References**
 
--   ([StackRox]) EKS vs GKE vs AKS - Evaluating Kubernetes in the Cloud
+- ([Oracle Developers Community]) Your one-stop shop for all Oracle Cloud Developer knowledge.
+
+- ([StackRox]) EKS vs GKE vs AKS - Evaluating Kubernetes in the Cloud
 
 -   ([itoutposts]) Kubernetes Engines Compared: Full Guide
 
@@ -931,3 +933,4 @@ Quick Reference
   [itoutposts]: https://itoutposts.com/blog/kubernetes-engines-compared-full-guide/
   [veritis]: https://www.veritis.com/blog/eks-vs-aks-vs-gke-which-is-the-right-kubernetes-platform-for-you/
   [kloia]: https://www.kloia.com/blog/comparison-of-the-kubernetes-engines
+  [Oracle Developers Community]: https://developer.oracle.com/index.html

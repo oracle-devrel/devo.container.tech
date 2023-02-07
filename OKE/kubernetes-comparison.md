@@ -817,19 +817,19 @@ Quick Reference
 
     - **Oracle**
 
-        oci ce cluster-options get --cluster-option-id all --query 'data."kubernetes-versions"'
+            oci ce cluster-options get --cluster-option-id all --query 'data."kubernetes-versions"'
 
     - **Azure**
 
-        az aks get-versions --location westus2 --query 'orchestrators[*].[orchestratorVersion,upgrades[*].orchestratorVersion]' --output table
+            az aks get-versions --location westus2 --query 'orchestrators[*].[orchestratorVersion,upgrades[*].orchestratorVersion]' --output table
 
     - **AWS**
 
-        aws eks describe-addon-versions --query 'addons[0].addonVersions[0].compatibilities[*].clusterVersion'
+            aws eks describe-addon-versions --query 'addons[0].addonVersions[0].compatibilities[*].clusterVersion'
 
     - **GCP** (Channel can be REGULAR, STABLE, or RAPID)
 
-        gcloud container get-server-config --region us-east1 --flatten="channels" --filter="channels.channel=REGULAR" --format="yaml(channels.channel,channels.validVersions)"
+            gcloud container get-server-config --region us-east1 --flatten="channels" --filter="channels.channel=REGULAR" --format="yaml(channels.channel,channels.validVersions)"
 
 #### [Node OS]
 

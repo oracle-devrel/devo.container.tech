@@ -66,14 +66,15 @@ Quick reference
 </thead>
 <tbody>
 <tr class="odd">
-<td><span id="GI_CurrentKs8Version" class="anchor"></span>Currently supported Kubernetes version(s)</td>
+<td><span id="GI_CurrentKs8Version" class="anchor"></span>Currently supported Kubernetes version(s)
+<p>(<a href="#Note_GI_K8s_Versions"><strong>note</strong></a>)</td>
 <td><p>1.25.4, 1.24.1, 1.23.4, 1.22.5</p>
 <p>(<a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutk8sversions.htm">source</a>)</p></td>
 <td><p>1.24.7, 1.23.13, 1.22.15, 1.21.14</p>
 <p>(<a href="https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html">source</a>)</p></td>
-<td><p>1.24.6, 1.23.12, 1.22.15</p>
+<td><p>1.25.5,1.24.9, 1.23.15, 1.23.12</p>
 <p>Current minor version and previous 2 minor versions (<a href="https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli">source</a>)</p></td>
-<td><p>1.24.1, 1.23.4, 1.22.5, 1.21.5</p>
+<td><p>{REGULAR) 1.25.5, 1.24.9, 1.23.14, 1.22.16, 1.21.14</p>
 <p>(rolling support for the most current versions of K8s; <a href="https://cloud.google.com/kubernetes-engine/versioning">source</a>)</p></td>
 </tr>
 <tr class="even">
@@ -124,7 +125,7 @@ Quick reference
 <td><span id="GI_NodeUpgradeProcess" class="anchor"></span>Node upgrade process</td>
 <td>
 <p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengupgradingk8sworkernode.htm">User-initiated</a><br />
-Update note pool config, scale out to add nodes with new version, remove old nodes will cordon and drain. Alternatively, create new node pool and divert traffic (blue/green)</p>
+Update node pool config, scale out to add nodes with new version, remove old nodes will cordon and drain. Alternatively, create new node pool and divert traffic (blue/green)</p>
 </td>
 <td><ul>
 <li><p>Unmanaged node groups: <a href="https://docs.aws.amazon.com/eks/latest/userguide/update-cluster.html"><u>user-initiated and managed</u></a></p></li>
@@ -811,11 +812,26 @@ Quick Reference
 
 ### General Information
 
+### [Supported K8s Versions][Currently Supported Kubernetes Version(s)]
+- <span id="Note_GI_K8s_Versions" class="anchor"></span>**(note 1)** Kubernetes releases happen approximately three times per year and the typical patch cadence is monthly (though not uncommon to be every 1 to 2 weeks). The best way to determine exactly which versions are currently supported on a particular platform is to utilize the Command Line Interface (CLI) of that cloud provider. Example commands are as follows:
+
+-- **Oracle**
+  oci ce cluster-options get --cluster-option-id all --query 'data."kubernetes-versions"'
+
+-- **Azure**
+  az aks get-versions --location westus2 --query 'orchestrators[*].[orchestratorVersion,upgrades[*].orchestratorVersion]' --output table
+
+-- **AWS**
+  aws eks describe-addon-versions --query 'addons[0].addonVersions[0].compatibilities[*].clusterVersion'
+
+-- **GCP** (Channel can be REGULAR, STABLE, or RAPID)
+  gcloud container get-server-config --region us-east1 --flatten="channels" --filter="channels.channel=REGULAR" --format="yaml(channels.channel,channels.validVersions)"
+
 #### [Node OS]
 
 -   <span id="Note_GI_NodeOS_01" class="anchor"></span>**(note 1)** some, but not all, of the latest Oracle Linux images provided by Oracle Cloud Infrastructure
 
-**Note:** “Docker is not included in Oracle Linux 8 images. Instead, in node pools running Kubernetes 1.20.x and later, Container Engine for Kubernetes installs and uses the CRI-O container runtime and the crictl CLI (for more information, see Notes about Container Engine for Kubernetes Support for Kubernetes Version 1.20).”
+-- **i.e.:** “Docker is not included in Oracle Linux 8 images. Instead, in node pools running Kubernetes 1.20.x and later, Container Engine for Kubernetes installs and uses the CRI-O container runtime and the crictl CLI (for more information, see Notes about Container Engine for Kubernetes Support for Kubernetes Version 1.20).”
 
 -   <span id="Note_GI_NodeOS_02" class="anchor"></span>**(note 2)** OKE images are provided by Oracle and built on top of platform images. OKE images are optimized for use as worker node base images, with all the necessary configurations and required software
 
@@ -835,9 +851,7 @@ Quick Reference
 
 #### [Pod Security][Pod Security Admission Controller]
 
-<span id="NS_PodSecurityAdmissionController" class="anchor"></span>Pod Security
-
--   **(note 1) Kubernetes Pod Security Policy will be deprecated starting with Kubernetes version 1.21, and will be removed entirely in version 1.25.** Recommended best practice is to migrate pod security policy to pod security admission controller before the deprecation deadline.
+-   <span id="NS_PodSecurityAdmissionController" class="anchor"></span>**(note 1) Kubernetes Pod Security Policy will be deprecated starting with Kubernetes version 1.21, and will be removed entirely in version 1.25.** Recommended best practice is to migrate pod security policy to pod security admission controller before the deprecation deadline.
 
 #### [Private or public IP Address for Clusters][Private or public IP address for cluster Kubernetes API]
 

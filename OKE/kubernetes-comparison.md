@@ -45,6 +45,7 @@ Quick reference
 - [Accessibility]
 - [Bare metal clusters]
 - [Worker node types]
+- [Preemptible capacity]
 - [Tools for developers]
 
 <table>
@@ -70,7 +71,7 @@ Quick reference
 <p>(<a href="#Note_GI_K8s_Versions"><strong>note</strong></a>)</td>
 <td><p>1.25.4, 1.24.1, 1.23.4, 1.22.5</p>
 <p>(<a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutk8sversions.htm">source</a>)</p></td>
-<td><p>1.24.7, 1.23.13, 1.22.15, 1.21.14</p>
+<td><p>1.25, 1.24, 1.23, 1.22</p>
 <p>(<a href="https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html">source</a>)</p></td>
 <td><p>1.25.5,1.24.9, 1.23.15, 1.23.12</p>
 <p>Current minor version and previous 2 minor versions (<a href="https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli">source</a>)</p></td>
@@ -93,7 +94,7 @@ Quick reference
 </tr>
 <tr class="even">
 <td><span id="GI_Pricing" class="anchor"></span>Pricing</td>
-<td>All management costs are <a href="https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm">free</a></td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm"><u>$0.10 per hour</u></a> per cluster + standard costs of Compute instances and other resources.<p>Basic Cluster option available for free</td>
 <td><a href="https://aws.amazon.com/eks/pricing/"><u>$0.10/hour (USD)</u></a> per cluster + standard costs of EC2 instances and other resources</td>
 <td><a href="https://azure.microsoft.com/en-ca/pricing/details/kubernetes-service/"><u>Pay-as-you-go</u></a>: Standard costs of node VMs and other resources</td>
 <td><a href="https://cloud.google.com/kubernetes-engine/pricing"><u>$0.10/hour (USD)</u></a> per cluster + standard costs of GCE machines and other resources</td>
@@ -354,7 +355,7 @@ Requires additional setup, metric selection, etc.</p>
 </tr>
 <tr class="even">
 <td><span id="GI_ServerlessComputing" class="anchor"></span>Serverless computing</td>
-<td>Virtual Nodes coming soon: will deliver a complete, serverless Kubernetes experience.</td>
+<td>Virtual Nodes and Virtual Node pools provide a serverless Kubernetes experience.</td>
 <td>Integrated with <a href="https://aws.amazon.com/fargate/"><strong>Fargate</strong></a>; customer can deploy pods as container instances rather than full VMs. Requires the use of <strong>Amazon Application Load Balancer</strong></td>
 <td>Virtual nodes make serverless computing possible in AKS. Does not run separately from the available Kubernetes workloads. A customer can use virtual nodes by assigning particular workloads to them.</td>
 <td><a href="https://cloud.google.com/anthos/run/docs/architecture-overview"><strong>Cloud Run</strong> for Anthos</a></td>
@@ -387,6 +388,13 @@ Requires additional setup, metric selection, etc.</p>
 <td>x86, ARM (v1.24 or later, only), GPU</td>
 </tr>
 <tr class="even">
+<td><span id="GI_Preemptible_capacity" class="anchor"></span>Preemptible Capacity</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingpreemptiblecapacity.htm">Supports</a></td>
+<td>EKS supports use of <a href="https://aws.amazon.com/about-aws/whats-new/2020/12/amazon-eks-support-ec2-spot-instances-managed-node-groups/">Spot Instances</a> within managed node groups.</td>
+<td><a href="https://learn.microsoft.com/en-us/azure/aks/spot-node-pool">Azure Spot node pools</a> can be used.</td>
+<td><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/preemptible-vms">Supports</a></td>
+</tr>
+<tr class="odd">
 <td><span id="GI_ToolsForDevelopers" class="anchor"></span>Tools for developers</td>
 <td><p>Oracle provided tools:</p>
 <ul>
@@ -456,7 +464,7 @@ Quick reference
 </tr>
 <tr class="even">
 <td><span id="SL_MaxNodesCluster" class="anchor"></span>Max nodes per cluster</td>
-<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">Each cluster you create can have a maximum of 1000 nodes</a></td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">Each cluster you create can have a maximum of 2000 managed nodes</a></td>
 <td><a href="https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html"><u>30 (Managed node groups) * 100 (Max nodes per group) = 3000</u></a></td>
 <td><ul>
 <li><p><a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-kubernetes-service-limits"><u>5000 (Virtual Machine Scale Sets)</u></a></p></li>
@@ -469,7 +477,7 @@ Quick reference
 </tr>
 <tr class="odd">
 <td><span id="SL_MaxNodesNodePool" class="anchor"></span>Max nodes per node pool/group</td>
-<td>1000</td>
+<td>2000</td>
 <td>Managed node groups: 100</td>
 <td><u><a href="https://docs.microsoft.com/en-us/azure/aks/quotas-skus-regions">100</a>0</u></td>
 <td><a href="https://cloud.google.com/kubernetes-engine/quotas"><u>1000</u></a></td>
@@ -508,6 +516,7 @@ Quick reference
 
 - [Network plugin/CNI]
 - [Kubernetes RBAC]
+- [Workload Identity]
 - [Network policy]
 - [Pod Security Admission Controller]
 - [Private or public IP address for cluster Kubernetes API]
@@ -515,6 +524,7 @@ Quick reference
 - [Pod-to-pod traffic encryption supported by provider]
 - [Firewall for cluster Kubernetes API]
 - [Read-only root filesystem on node]
+- [External secrets management]
 - [General]
 
 <table style="width:100%;">
@@ -570,6 +580,13 @@ Quick reference
 <p><em>Mutable after cluster creation</em></p></td>
 </tr>
 <tr class="odd">
+<td><span id="NS_WorkloadIdentity" class="anchor"></span>Workload Identity (Pod-level authorization)</td>
+<td><a href="https://blogs.oracle.com/cloud-infrastructure/post/oke-workload-identity-greater-control-access">OKE Workload Identity</a></td>
+<td><a href="https://docs.aws.amazon.com/eks/latest/userguide/pod-configuration.html">Kubernetes service accounts in EKS</a></td>
+<td><a href="https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview">Azure AD workload identity (preview)</a></td>
+<td><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity">GKE Workload Identity</a></td>
+</tr>
+<tr class="even">
 <td><span id="NS_NetworkPolicy" class="anchor"></span>Kubernetes Network Policy</td>
 <td><ul>
 <li><p>Not enabled by default</p></li>
@@ -588,7 +605,7 @@ Quick reference
 <li><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy#enabling_network_policy_enforcement"><u>Can be enabled at any time</u></a></p></li>
 </ul></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><p><span id="NS_PodSecurityPolicy" class="anchor"></span>Pod Security Admission Controller (PSA)</p>
 <p>(<a href="#NS_PodSecurityAdmissionController">note</a>)</p></td>
 <td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Reference/contengadmissioncontrollers.htm">PodSecurity Admission Controller</a> is supported by all OKE versions.</td>
@@ -599,7 +616,7 @@ Quick reference
 <td><p>Available and enabled by default in GKE 1.25 (stable), 1.23 &amp; 1.24 (beta)</p>
 <p>(<a href="https://cloud.google.com/kubernetes-engine/docs/how-to/migrate-podsecuritypolicy">read more</a>)</p></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span id="NS_IPforCluster" class="anchor"></span>Private or public IP address for cluster Kubernetes API</td>
 <td><ul>
 <li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke_topic-Using_the_Console_to_create_a_Custom_Cluster_with_Explicitly_Defined_Settings.htm">Private</a> by default</p></li>
@@ -618,7 +635,7 @@ Quick reference
 <li><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters#endpoints"><u>Optional public, hybrid or private setup</u></a></p></li>
 </ul></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span id="NS_IPforNodes" class="anchor"></span>Private or Public IP addresses for nodes</td>
 <td><ul>
 <li><p>Worker nodes can be public or private, depending on VCN Subnet configuration</p></li>
@@ -636,7 +653,7 @@ Quick reference
 <li><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters"><u>Private can be enabled as well</u></a></p></li>
 </ul></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span id="NS_EncryptedPodTraffic" class="anchor"></span>Pod-to-pod traffic encryption supported by provider</td>
 <td><ul>
 <li><p>Yes, <a href="https://docs.oracle.com/en/solutions/oci-service-mesh-oke/index.html#GUID-C2C31164-55E2-442A-94D6-92EE5ADB2D86">OCI service mesh</a></p></li>
@@ -646,7 +663,7 @@ Quick reference
 <td>Open Service Mesh as an add-on</td>
 <td>Yes, with <a href="https://cloud.google.com/istio/docs/istio-on-gke/migrate-to-anthos-service-mesh">Anthos Service Mesh</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span id="NS_ClusterFirewall" class="anchor"></span>Firewall for cluster Kubernetes API</td>
 <td><ul>
 <li><p>CIDR allow list option</p></li>
@@ -656,7 +673,7 @@ Quick reference
 <td>CIDR allow list option</td>
 <td>CIDR allow list option</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span id="NS_ROrootFS" class="anchor"></span>Read-only root filesystem on node</td>
 <td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingpspswithoke.htm">Pod security policy required</a></td>
 <td><a href="https://aws.amazon.com/blogs/opensource/using-pod-security-policies-amazon-eks-clusters/"><u>Pod security policy required</u></a></td>
@@ -665,6 +682,13 @@ Quick reference
 <li><p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/node-images#file_system_layout"><u>COS: default</u></a></p></li>
 <li><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies"><u>Alternative: Pod security policy required</u></a></p></li>
 </ul></td>
+</tr>
+<tr class="odd">
+<td><span id="NS_SecretsManagement" class="anchor"></span>External secrets management</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/releasenotes/changes/6dfc3529-8e66-4cf0-8b36-ef5c696f1182/">Access OCI Vault with Secrets Store CSI Driver</a></td>
+<td><a href="https://docs.aws.amazon.com/eks/latest/userguide/manage-secrets.html">AWS Secrets and Configuration Provider (ASCP) based on Secrets Store CSI Driver</a></td>
+<td><a href="https://external-secrets.io/v0.5.7/provider-google-secrets-manager/">External Secrets Operator integrates with GCP Secret Manager</a></td>
+<td><a href="https://learn.microsoft.com/en-us/azure/aks/csi-secrets-store-driver">Azure Key Vault Provider for Secrets Store CSI Driver</a></td>
 </tr>
 </tbody>
 </table>
@@ -903,6 +927,7 @@ Quick Reference
   [Accessibility]: #GI_Accessibility
   [Bare metal clusters]: #GI_BareMetal
   [Worker node types]: #GI_WorkerNodeTypes
+  [Preemptible capacity]: #GI_Preemptible_capacity
   [Tools for developers]: #GI_ToolsForDevelopers
   [Max clusters]: #SL_MaxClusters
   [Max nodes per cluster]: #SL_MaxNodesCluster
@@ -910,6 +935,7 @@ Quick Reference
   [Max node pools/groups per cluster]: #SL_MaxNodePoolsCluster
   [Max pods/node]: #SL_MaxPodsNode
   [Network plugin/CNI]: #NS_NetworkPlugin
+  [Workload Identity]: #NS_WorkloadIdentity
   [Kubernetes RBAC]: #NS_RBAC
   [Network policy]: #NS_NetworkPolicy
   [Pod Security Admission Controller]: #NS_PodSecurityPolicy
@@ -918,6 +944,7 @@ Quick Reference
   [Pod-to-pod traffic encryption supported by provider]: #NS_EncryptedPodTraffic
   [Firewall for cluster Kubernetes API]: #NS_ClusterFirewall
   [Read-only root filesystem on node]: #NS_ROrootFS
+  [External secrets management]: #NS_SecretsManagement
   [General]: #NS_General
   [Image repository service]: #CIS_ImageRespositoryService
   [Supported formats]: #CIS_SupportedFormats

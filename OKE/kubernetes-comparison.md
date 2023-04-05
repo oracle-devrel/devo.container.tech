@@ -47,7 +47,6 @@ Quick reference
 - [Worker node types]
 - [Preemptible capacity]
 - [Cluster addons]
-- [Tools for developers]
 
 <table>
 <colgroup>
@@ -109,11 +108,10 @@ Quick reference
 </tr>
 <tr class="even">
 <td><span id="GI_CNCFcertifiedVersion" class="anchor"></span>CLI support</td>
-<td>Full support of Kubernetes clusters;<br />
-<strong><a href="https://docs.oracle.com/en-us/iaas/Content/API/Concepts/devcloudshellintro.htm">Oracle Cloud Shell</a>;</strong> <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaccessingclusterkubectl.htm">Kubectl</a> support</td>
-<td>Full support of Kubernetes clusters; Kubectl support</td>
-<td>Full support of Kubernetes clusters; Kubectl support</td>
-<td>Full support of Kubernetes clusters; Kubectl support</td>
+<td>Full support of Kubernetes clusters;<br><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaccessingclusterkubectl.htm">kubectl</a> support</td>
+<td>Full support of Kubernetes clusters; kubectl support</td>
+<td>Full support of Kubernetes clusters; kubectl support</td>
+<td>Full support of Kubernetes clusters; kubectl support</td>
 </tr>
 <tr class="odd">
 <td><span id="GI_ControlPlaneUpgradeProcess" class="anchor"></span>Control-plane upgrade process</td>
@@ -184,23 +182,19 @@ Update node pool config, scale out to add nodes with new version, remove old nod
 </tr>
 <tr class="even">
 <td><span id="GI_ContainerRuntime" class="anchor"></span>Container runtime</td>
-<td><ul>
-<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutk8sversions.htm">CRI-O</a></p></li>
+<td>
+<p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutk8sversions.htm">CRI-O</a></p></li>
+</td>
+<td>
+<p><a href="https://aws.amazon.com/bottlerocket/"><u>containerd (default &gt;= 1.24)<br />
+(also available through Bottlerocket)</u></a></p>
+</td>
+<td>
+<p>containerd</p>
 </ul></td>
-<td><ul>
-<li><p>Docker (default &lt;= 1.23)</p></li>
-<li><p><a href="https://aws.amazon.com/bottlerocket/"><u>containerd (default &gt;= 1.24)<br />
-(also available through Bottlerocket)</u></a></p></li>
-</ul></td>
-<td><ul>
-<li><p>Docker (default)</p></li>
-<li><p><a href="https://azure.microsoft.com/en-ca/updates/azure-kubernetes-service-aks-support-for-containerd-runtime-is-in-preview/"><u>containerd</u></a></p></li>
-</ul></td>
-<td><ul>
-<li><p>Docker (default)</p></li>
-<li><p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/using-containerd"><u>containerd</u></a></p></li>
-<li><p><a href="https://cloud.google.com/blog/products/gcp/open-sourcing-gvisor-a-sandboxed-container-runtime"><u>gVisor</u></a></p></li>
-</ul></td>
+<td>
+<p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/using-containerd"><u>containerd</u></a></p>
+</td>
 </tr>
 <tr class="odd">
 <td><span id="GI_ControlPlaneHAoptions" class="anchor"></span>Control plane high availability options</td>
@@ -401,35 +395,6 @@ Requires additional setup, metric selection, etc.</p>
 <td><a href="https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html">Full lifecycle management for available cluster add-ons</a></td>
 <td><a href="https://learn.microsoft.com/en-us/azure/aks/integrations">Full lifecycle management for available cluster add-ons</a></td>
 <td>Numerous add-ons available, though documentation is limited.</td>
-</tr>
-<tr class="even">
-<td><span id="GI_ToolsForDevelopers" class="anchor"></span>Tools for developers</td>
-<td><p>Oracle provided tools:</p>
-<ul>
-<li><p><a href="https://docs.public.oneportal.content.oci.oraclecloud.com/iaas/api/#/en/containerengine/">Container Engine API</a></p></li>
-<li><p><a href="https://docs.public.oneportal.content.oci.oraclecloud.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/ce.html">Container Engine CLI</a></p></li>
-<li><p><a href="https://docs.public.oneportal.content.oci.oraclecloud.com/iaas/Content/API/Concepts/sdks.htm">SDKs and CLI</a> (<strong>SDKs</strong>: Java, Python, TypeScript and JavaScript, .NET, Go, Ruby, PL/SQL)</p></li>
-<li><p><a href="https://docs.public.oneportal.content.oci.oraclecloud.com/iaas/Content/API/Concepts/devcloudshellintro.htm">Cloud shell</a> / Code Editor</p></li>
-<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/visualstudio_using.htm">Oracle Developer tools for Visual Studio</a></p></li>
-</ul>
-<p>Oracle customers can take full advantage of the K8s ecosystem - <a href="https://loft.sh/blog/kubernetes-statefulset-examples-and-best-practices/">Loft</a>, <a href="https://www.okteto.com/">Okteto</a>, <a href="https://blogs.oracle.com/developers/post/strengthen-your-developer-experience-and-deployment-velocity-with-oke-and-shipa-cloud">Shipa.io</a>, <a href="https://www.telepresence.io/docs/v1/discussion/overview/">Telepresence</a></p>
-<ul>
-<li><p>Helm/Helm charts</p></li>
-<li><p><a href="https://www.ateam-oracle.com/post/continuous-deployments-with-skaffold-on-oracle-cloud-infrastructure-container-engine-for-kubernetes-oke">Skaffold</a></p></li>
-<li><p><a href="https://oracle.github.io/learning-library/developer-library/cloud-native/oke-with-service-broker/workshops/oke-live-devops/freetier/?lab=kustomize">Kustomize</a> (<a href="https://oracle.github.io/learning-library/developer-library/cloud-native/oke-with-service-broker/workshops/oke-live-devops/freetier/?lab=skaffold">works with Skaffold</a>)</p></li>
-<li><p><a href="https://docs.oracle.com/en-us/iaas/releasenotes/changes/0680c077-6857-4d7b-a51a-0ab245112572/">Terraform</a></p></li>
-</ul></td>
-<td><p>AWS Toolkit for VS Code supports ECR and ECS, but not EKS</p>
-<p>AWS CloudShell</p>
-<p>AWS CloudFormation</p>
-<p>AWS SDKs and CLI</p>
-<p>Full support for entire K8s ecosystem.</p></td>
-<td><ul>
-<li><p><strong>Kubernetes extension in VS Code</strong>.</p></li>
-<li><p><a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwiysqvAouL5AhVRDkQIHVHjC9AQFnoECBMQAQ&amp;url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fvisualstudio%2Fbridge%2Foverview-bridge-to-kubernetes&amp;usg=AOvVaw050ESgeAy8CRGAkOvEd2IO"><strong>Bridge to Kubernete</strong>s</a> which allows execution of local code as a service in a cluster. It also, replicates dependencies in a local environment.</p></li>
-</ul></td>
-<td><p>Google offers either Cloud Code or the VS Code extension to deploy, monitor, and control clusters directly in IDE.</p>
-<p>Integrates with <strong>Cloud Run</strong> and <strong>Cloud Run for Anthos</strong>.</p></td>
 </tr>
 </tbody>
 </table>
@@ -937,7 +902,6 @@ Quick Reference
   [Worker node types]: #GI_WorkerNodeTypes
   [Preemptible capacity]: #GI_Preemptible_capacity
   [Cluster_Addons]: #GI_Cluster_Addons
-  [Tools for developers]: #GI_ToolsForDevelopers
   [Max clusters]: #SL_MaxClusters
   [Max nodes per cluster]: #SL_MaxNodesCluster
   [Max nodes per node pool/group]: #SL_MaxNodesNodePool

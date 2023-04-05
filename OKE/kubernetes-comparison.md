@@ -46,6 +46,7 @@ Quick reference
 - [Bare metal clusters]
 - [Worker node types]
 - [Preemptible capacity]
+- [Cluster addons]
 - [Tools for developers]
 
 <table>
@@ -395,6 +396,13 @@ Requires additional setup, metric selection, etc.</p>
 <td><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/preemptible-vms">Supports</a></td>
 </tr>
 <tr class="odd">
+<td><span id="GI_Cluster_Addons" class="anchor"></span>Cluster Add-on Management</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengconfiguringclusteraddons.htm">Full lifecycle management for available cluster add-ons</a></td>
+<td><a href="https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html">Full lifecycle management for available cluster add-ons</a></td>
+<td><a href="https://learn.microsoft.com/en-us/azure/aks/integrations">Full lifecycle management for available cluster add-ons</a></td>
+<td>Numerous add-ons available, though documentation is limited.</td>
+</tr>
+<tr class="even">
 <td><span id="GI_ToolsForDevelopers" class="anchor"></span>Tools for developers</td>
 <td><p>Oracle provided tools:</p>
 <ul>
@@ -928,6 +936,7 @@ Quick Reference
   [Bare metal clusters]: #GI_BareMetal
   [Worker node types]: #GI_WorkerNodeTypes
   [Preemptible capacity]: #GI_Preemptible_capacity
+  [Cluster_Addons]: #GI_Cluster_Addons
   [Tools for developers]: #GI_ToolsForDevelopers
   [Max clusters]: #SL_MaxClusters
   [Max nodes per cluster]: #SL_MaxNodesCluster

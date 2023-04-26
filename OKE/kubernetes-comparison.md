@@ -10,14 +10,14 @@ author:
 parent: [tutorials]
 categories: [cloudapps, clouddev, modernize, enterprise]
 date: 2023-01-23 08:00
-modified: 2023-01-31 08:00
----
+modified: 2023-04-26 08:00
+
 
 ## **General Information**
 
 This document contains an extensive, though not exhaustive comparison of the four most prolific managed Kubernetes offerings: Oracle Container Engine for Kubernetes (OKE), Amazon Elastic Kubernetes Service (EKS), Azure Kubernetes Service (AKS), and Google Kubernetes Engine (GKE). The comparison was developed with input from the community and will continue to be revised as the technology changes.
 
-First published January 7th, 2023, this document will be updated regularly to ensure consistent and relevant information is made available. Should you have any questions or wish to contribute feedback, you may [reach us any time on Slack!]
+Last modified April 26th, 2023, this document will be updated regularly to ensure consistent and relevant information is made available. Should you have any questions or wish to contribute feedback, you may [reach us any time on Slack!]
 
 Quick reference
 
@@ -44,7 +44,8 @@ Quick reference
 - [Accessibility]
 - [Bare metal clusters]
 - [Worker node types]
-- [Tools for developers]
+- [Preemptible capacity]
+- [Cluster addons]
 
 <table>
 <colgroup>
@@ -66,14 +67,14 @@ Quick reference
 <tbody>
 <tr class="odd">
 <td><span id="GI_CurrentKs8Version" class="anchor"></span>Currently supported Kubernetes version(s)
-<p>(<a href="#Note_GI_K8s_Versions"><strong>note</strong></a>)</p></td>
-<td><p>1.25.4, 1.24.1, 1.23.4, 1.22.5</p>
+<p>(<a href="#Note_GI_K8s_Versions"><strong>note</strong></a>)</td>
+<td><p>1.26.2, 1.25.4, 1.24.1, 1.23.4</p>
 <p>(<a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutk8sversions.htm">source</a>)</p></td>
-<td><p>1.24.7, 1.23.13, 1.22.15, 1.21.14</p>
+<td><p>1.26, 1.25, 1.24, 1.23, 1.22</p>
 <p>(<a href="https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html">source</a>)</p></td>
-<td><p>1.25.5,1.24.9, 1.23.15, 1.23.12</p>
+<td><p>1.26, 1.25.5, 1.24.9, 1.23.15</p>
 <p>Current minor version and previous 2 minor versions (<a href="https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli">source</a>)</p></td>
-<td><p>{REGULAR) 1.25.5, 1.24.9, 1.23.14, 1.22.16, 1.21.14</p>
+<td><p>1.26, 1.25.5, 1.24.9, 1.23.14</p>
 <p>(rolling support for the most current versions of K8s; <a href="https://cloud.google.com/kubernetes-engine/versioning">source</a>)</p></td>
 </tr>
 <tr class="even">
@@ -92,9 +93,9 @@ Quick reference
 </tr>
 <tr class="even">
 <td><span id="GI_Pricing" class="anchor"></span>Pricing</td>
-<td>All management costs are <a href="https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm">free</a></td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm"><u>$0.10 per hour</u></a> per cluster + standard costs of Compute instances and other resources.<p>Basic Cluster option available for free</td>
 <td><a href="https://aws.amazon.com/eks/pricing/"><u>$0.10/hour (USD)</u></a> per cluster + standard costs of EC2 instances and other resources</td>
-<td><a href="https://azure.microsoft.com/en-ca/pricing/details/kubernetes-service/"><u>Pay-as-you-go</u></a>: Standard costs of node VMs and other resources</td>
+<td><a href="https://azure.microsoft.com/en-ca/pricing/details/kubernetes-service/"><u>$0.10 per hour</u></a> per cluster + Standard costs of node VMs and other resources. Free tier available for exploration.</td>
 <td><a href="https://cloud.google.com/kubernetes-engine/pricing"><u>$0.10/hour (USD)</u></a> per cluster + standard costs of GCE machines and other resources</td>
 </tr>
 <tr class="odd">
@@ -106,11 +107,10 @@ Quick reference
 </tr>
 <tr class="even">
 <td><span id="GI_CNCFcertifiedVersion" class="anchor"></span>CLI support</td>
-<td>Full support of Kubernetes clusters;<br />
-<strong><a href="https://docs.oracle.com/en-us/iaas/Content/API/Concepts/devcloudshellintro.htm">Oracle Cloud Shell</a>;</strong> <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaccessingclusterkubectl.htm">Kubectl</a> support</td>
-<td>Full support of Kubernetes clusters; Kubectl support</td>
-<td>Full support of Kubernetes clusters; Kubectl support</td>
-<td>Full support of Kubernetes clusters; Kubectl support</td>
+<td>Full support of Kubernetes clusters; <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaccessingclusterkubectl.htm">kubectl</a> support</td>
+<td>Full support of Kubernetes clusters; kubectl support</td>
+<td>Full support of Kubernetes clusters; kubectl support</td>
+<td>Full support of Kubernetes clusters; kubectl support</td>
 </tr>
 <tr class="odd">
 <td><span id="GI_ControlPlaneUpgradeProcess" class="anchor"></span>Control-plane upgrade process</td>
@@ -181,23 +181,19 @@ Update node pool config, scale out to add nodes with new version, remove old nod
 </tr>
 <tr class="even">
 <td><span id="GI_ContainerRuntime" class="anchor"></span>Container runtime</td>
-<td><ul>
-<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutk8sversions.htm">CRI-O</a></p></li>
+<td>
+<p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutk8sversions.htm">CRI-O</a></p></li>
+</td>
+<td>
+<p><a href="https://aws.amazon.com/bottlerocket/"><u>containerd (default &gt;= 1.24)<br />
+(also available through Bottlerocket)</u></a></p>
+</td>
+<td>
+<p>containerd</p>
 </ul></td>
-<td><ul>
-<li><p>Docker (default &lt;= 1.23)</p></li>
-<li><p><a href="https://aws.amazon.com/bottlerocket/"><u>containerd (default &gt;= 1.24)<br />
-(also available through Bottlerocket)</u></a></p></li>
-</ul></td>
-<td><ul>
-<li><p>Docker (default)</p></li>
-<li><p><a href="https://azure.microsoft.com/en-ca/updates/azure-kubernetes-service-aks-support-for-containerd-runtime-is-in-preview/"><u>containerd</u></a></p></li>
-</ul></td>
-<td><ul>
-<li><p>Docker (default)</p></li>
-<li><p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/using-containerd"><u>containerd</u></a></p></li>
-<li><p><a href="https://cloud.google.com/blog/products/gcp/open-sourcing-gvisor-a-sandboxed-container-runtime"><u>gVisor</u></a></p></li>
-</ul></td>
+<td>
+<p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/using-containerd"><u>containerd</u></a></p>
+</td>
 </tr>
 <tr class="odd">
 <td><span id="GI_ControlPlaneHAoptions" class="anchor"></span>Control plane high availability options</td>
@@ -216,7 +212,7 @@ Update node pool config, scale out to add nodes with new version, remove old nod
 <tr class="even">
 <td><span id="GI_ControlPlaneSLA" class="anchor"></span>Control plane SLA</td>
 <td>
-<p>99.95% SLO</p>
+<p><a href="https://www.oracle.com/content/published/api/v1.1/assets/CONT95B931480DF242229DF530A64F0D0245/native/Oracle%20PaaS%20and%20IaaS%20Public%20Cloud%20Services%20Pillar%20Document.pdf?cb=_cache_a99f&channelToken=117bec9b3b4e4e90a1c4c9069d210baf&download=false"><u>99.95% SLA</u></a></p>
 </td>
 <td>
 <p><a href="https://aws.amazon.com/eks/sla/"><u>99.95% (default)</u></a></p>
@@ -236,12 +232,12 @@ Update node pool config, scale out to add nodes with new version, remove old nod
 <p><a href="https://www.oracle.com/assets/paas-iaas-pub-cld-srvs-pillar-4021422.pdf">Compute SLA</a></p>
 
 <ul>
-<li><p>99.99 for regions with multiple Ads</p></li>
-<li><p>99.95 for regions with one AD</p></li>
+<li><p>99.99% for regions with multiple Ads</p></li>
+<li><p>99.95% for regions with one AD</p></li>
 <li><p>99.9% for single instance</p></li>
 </ul></td>
 <td>
-<p>guarantees 99.95% uptime</p>
+<p>Guarantees 99.95% uptime</p>
 </td>
 <td>Offers 99.95% when availability zones are enabled, and 99.9% when disabled</td>
 <td>
@@ -251,7 +247,7 @@ Update node pool config, scale out to add nodes with new version, remove old nod
 <tr class="even">
 <td><span id="GI_SLAfinanciallyBacked" class="anchor"></span>SLA financially-backed</td>
 <td>
-<p>Zero cost – not applicable</p>
+<p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcomparingenhancedwithbasicclusters_topic.htm"><u>Yes</u></a></p>
 </td>
 <td>
 <p><a href="https://aws.amazon.com/eks/sla"><u>Yes</u></a></p>
@@ -353,7 +349,7 @@ Requires additional setup, metric selection, etc.</p>
 </tr>
 <tr class="even">
 <td><span id="GI_ServerlessComputing" class="anchor"></span>Serverless computing</td>
-<td>Virtual Nodes coming soon: will deliver a complete, serverless Kubernetes experience.</td>
+<td>Virtual Nodes and Virtual Node pools provide a serverless Kubernetes experience.</td>
 <td>Integrated with <a href="https://aws.amazon.com/fargate/"><strong>Fargate</strong></a>; customer can deploy pods as container instances rather than full VMs. Requires the use of <strong>Amazon Application Load Balancer</strong></td>
 <td>Virtual nodes make serverless computing possible in AKS. Does not run separately from the available Kubernetes workloads. A customer can use virtual nodes by assigning particular workloads to them.</td>
 <td><a href="https://cloud.google.com/anthos/run/docs/architecture-overview"><strong>Cloud Run</strong> for Anthos</a></td>
@@ -386,33 +382,18 @@ Requires additional setup, metric selection, etc.</p>
 <td>x86, ARM (v1.24 or later, only), GPU</td>
 </tr>
 <tr class="even">
-<td><span id="GI_ToolsForDevelopers" class="anchor"></span>Tools for developers</td>
-<td><p>Oracle provided tools:</p>
-<ul>
-<li><p><a href="https://docs.public.oneportal.content.oci.oraclecloud.com/iaas/api/#/en/containerengine/">Container Engine API</a></p></li>
-<li><p><a href="https://docs.public.oneportal.content.oci.oraclecloud.com/iaas/tools/oci-cli/latest/oci_cli_docs/cmdref/ce.html">Container Engine CLI</a></p></li>
-<li><p><a href="https://docs.public.oneportal.content.oci.oraclecloud.com/iaas/Content/API/Concepts/sdks.htm">SDKs and CLI</a> (<strong>SDKs</strong>: Java, Python, TypeScript and JavaScript, .NET, Go, Ruby, PL/SQL)</p></li>
-<li><p><a href="https://docs.public.oneportal.content.oci.oraclecloud.com/iaas/Content/API/Concepts/devcloudshellintro.htm">Cloud shell</a> / Code Editor</p></li>
-<li><p><a href="https://docs.oracle.com/en-us/iaas/Content/API/SDKDocs/visualstudio_using.htm">Oracle Developer tools for Visual Studio</a></p></li>
-</ul>
-<p>Oracle customers can take full advantage of the K8s ecosystem - <a href="https://loft.sh/blog/kubernetes-statefulset-examples-and-best-practices/">Loft</a>, <a href="https://www.okteto.com/">Okteto</a>, <a href="https://blogs.oracle.com/developers/post/strengthen-your-developer-experience-and-deployment-velocity-with-oke-and-shipa-cloud">Shipa.io</a>, <a href="https://www.telepresence.io/docs/v1/discussion/overview/">Telepresence</a></p>
-<ul>
-<li><p>Helm/Helm charts</p></li>
-<li><p><a href="https://www.ateam-oracle.com/post/continuous-deployments-with-skaffold-on-oracle-cloud-infrastructure-container-engine-for-kubernetes-oke">Skaffold</a></p></li>
-<li><p><a href="https://oracle.github.io/learning-library/developer-library/cloud-native/oke-with-service-broker/workshops/oke-live-devops/freetier/?lab=kustomize">Kustomize</a> (<a href="https://oracle.github.io/learning-library/developer-library/cloud-native/oke-with-service-broker/workshops/oke-live-devops/freetier/?lab=skaffold">works with Skaffold</a>)</p></li>
-<li><p><a href="https://docs.oracle.com/en-us/iaas/releasenotes/changes/0680c077-6857-4d7b-a51a-0ab245112572/">Terraform</a></p></li>
-</ul></td>
-<td><p>AWS Toolkit for VS Code supports ECR and ECS, but not EKS</p>
-<p>AWS CloudShell</p>
-<p>AWS CloudFormation</p>
-<p>AWS SDKs and CLI</p>
-<p>Full support for entire K8s ecosystem.</p></td>
-<td><ul>
-<li><p><strong>Kubernetes extension in VS Code</strong>.</p></li>
-<li><p><a href="https://www.google.com/url?sa=t&amp;rct=j&amp;q=&amp;esrc=s&amp;source=web&amp;cd=&amp;cad=rja&amp;uact=8&amp;ved=2ahUKEwiysqvAouL5AhVRDkQIHVHjC9AQFnoECBMQAQ&amp;url=https%3A%2F%2Fdocs.microsoft.com%2Fen-us%2Fvisualstudio%2Fbridge%2Foverview-bridge-to-kubernetes&amp;usg=AOvVaw050ESgeAy8CRGAkOvEd2IO"><strong>Bridge to Kubernete</strong>s</a> which allows execution of local code as a service in a cluster. It also, replicates dependencies in a local environment.</p></li>
-</ul></td>
-<td><p>Google offers either Cloud Code or the VS Code extension to deploy, monitor, and control clusters directly in IDE.</p>
-<p>Integrates with <strong>Cloud Run</strong> and <strong>Cloud Run for Anthos</strong>.</p></td>
+<td><span id="GI_Preemptible_capacity" class="anchor"></span>Preemptible Capacity</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingpreemptiblecapacity.htm">Supports</a></td>
+<td>EKS supports use of <a href="https://aws.amazon.com/about-aws/whats-new/2020/12/amazon-eks-support-ec2-spot-instances-managed-node-groups/">Spot Instances</a> within managed node groups.</td>
+<td><a href="https://learn.microsoft.com/en-us/azure/aks/spot-node-pool">Azure Spot node pools</a> can be used.</td>
+<td><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/preemptible-vms">Supports</a></td>
+</tr>
+<tr class="odd">
+<td><span id="GI_Cluster_Addons" class="anchor"></span>Cluster Add-on Management</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengconfiguringclusteraddons.htm">Full lifecycle management for available cluster add-ons</a></td>
+<td><a href="https://docs.aws.amazon.com/eks/latest/userguide/eks-add-ons.html">Full lifecycle management for available cluster add-ons</a></td>
+<td><a href="https://learn.microsoft.com/en-us/azure/aks/integrations">Full lifecycle management for available cluster add-ons</a></td>
+<td>Numerous add-ons available, though documentation is limited.</td>
 </tr>
 </tbody>
 </table>
@@ -455,7 +436,7 @@ Quick reference
 </tr>
 <tr class="even">
 <td><span id="SL_MaxNodesCluster" class="anchor"></span>Max nodes per cluster</td>
-<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">Each cluster you create can have a maximum of 1000 nodes</a></td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">Each cluster you create can have a maximum of 2000 managed nodes</a></td>
 <td><a href="https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html"><u>30 (Managed node groups) * 100 (Max nodes per group) = 3000</u></a></td>
 <td><ul>
 <li><p><a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-kubernetes-service-limits"><u>5000 (Virtual Machine Scale Sets)</u></a></p></li>
@@ -468,7 +449,7 @@ Quick reference
 </tr>
 <tr class="odd">
 <td><span id="SL_MaxNodesNodePool" class="anchor"></span>Max nodes per node pool/group</td>
-<td>1000</td>
+<td>2000</td>
 <td>Managed node groups: 100</td>
 <td><u><a href="https://docs.microsoft.com/en-us/azure/aks/quotas-skus-regions">100</a>0</u></td>
 <td><a href="https://cloud.google.com/kubernetes-engine/quotas"><u>1000</u></a></td>
@@ -507,6 +488,7 @@ Quick reference
 
 - [Network plugin/CNI]
 - [Kubernetes RBAC]
+- [Workload Identity]
 - [Network policy]
 - [Pod Security Admission Controller]
 - [Private or public IP address for cluster Kubernetes API]
@@ -514,6 +496,7 @@ Quick reference
 - [Pod-to-pod traffic encryption supported by provider]
 - [Firewall for cluster Kubernetes API]
 - [Read-only root filesystem on node]
+- [External secrets management]
 - [General]
 
 <table style="width:100%;">
@@ -569,6 +552,13 @@ Quick reference
 <p><em>Mutable after cluster creation</em></p></td>
 </tr>
 <tr class="odd">
+<td><span id="NS_WorkloadIdentity" class="anchor"></span>Workload Identity (Pod-level authorization)</td>
+<td><a href="https://blogs.oracle.com/cloud-infrastructure/post/oke-workload-identity-greater-control-access">OKE Workload Identity</a></td>
+<td><a href="https://docs.aws.amazon.com/eks/latest/userguide/pod-configuration.html">Kubernetes service accounts in EKS</a></td>
+<td><a href="https://learn.microsoft.com/en-us/azure/aks/workload-identity-overview">Azure AD workload identity (preview)</a></td>
+<td><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/workload-identity">GKE Workload Identity</a></td>
+</tr>
+<tr class="even">
 <td><span id="NS_NetworkPolicy" class="anchor"></span>Kubernetes Network Policy</td>
 <td><ul>
 <li><p>Not enabled by default</p></li>
@@ -587,7 +577,7 @@ Quick reference
 <li><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/network-policy#enabling_network_policy_enforcement"><u>Can be enabled at any time</u></a></p></li>
 </ul></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><p><span id="NS_PodSecurityPolicy" class="anchor"></span>Pod Security Admission Controller (PSA)</p>
 <p>(<a href="#NS_PodSecurityAdmissionController">note</a>)</p></td>
 <td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Reference/contengadmissioncontrollers.htm">PodSecurity Admission Controller</a> is supported by all OKE versions.</td>
@@ -598,7 +588,7 @@ Quick reference
 <td><p>Available and enabled by default in GKE 1.25 (stable), 1.23 &amp; 1.24 (beta)</p>
 <p>(<a href="https://cloud.google.com/kubernetes-engine/docs/how-to/migrate-podsecuritypolicy">read more</a>)</p></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span id="NS_IPforCluster" class="anchor"></span>Private or public IP address for cluster Kubernetes API</td>
 <td><ul>
 <li><p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingclusterusingoke_topic-Using_the_Console_to_create_a_Custom_Cluster_with_Explicitly_Defined_Settings.htm">Private</a> by default</p></li>
@@ -617,7 +607,7 @@ Quick reference
 <li><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters#endpoints"><u>Optional public, hybrid or private setup</u></a></p></li>
 </ul></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span id="NS_IPforNodes" class="anchor"></span>Private or Public IP addresses for nodes</td>
 <td><ul>
 <li><p>Worker nodes can be public or private, depending on VCN Subnet configuration</p></li>
@@ -635,7 +625,7 @@ Quick reference
 <li><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/private-clusters"><u>Private can be enabled as well</u></a></p></li>
 </ul></td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span id="NS_EncryptedPodTraffic" class="anchor"></span>Pod-to-pod traffic encryption supported by provider</td>
 <td><ul>
 <li><p>Yes, <a href="https://docs.oracle.com/en/solutions/oci-service-mesh-oke/index.html#GUID-C2C31164-55E2-442A-94D6-92EE5ADB2D86">OCI service mesh</a></p></li>
@@ -645,7 +635,7 @@ Quick reference
 <td>Open Service Mesh as an add-on</td>
 <td>Yes, with <a href="https://cloud.google.com/istio/docs/istio-on-gke/migrate-to-anthos-service-mesh">Anthos Service Mesh</a></td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td><span id="NS_ClusterFirewall" class="anchor"></span>Firewall for cluster Kubernetes API</td>
 <td><ul>
 <li><p>CIDR allow list option</p></li>
@@ -655,7 +645,7 @@ Quick reference
 <td>CIDR allow list option</td>
 <td>CIDR allow list option</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td><span id="NS_ROrootFS" class="anchor"></span>Read-only root filesystem on node</td>
 <td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengusingpspswithoke.htm">Pod security policy required</a></td>
 <td><a href="https://aws.amazon.com/blogs/opensource/using-pod-security-policies-amazon-eks-clusters/"><u>Pod security policy required</u></a></td>
@@ -664,6 +654,13 @@ Quick reference
 <li><p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/node-images#file_system_layout"><u>COS: default</u></a></p></li>
 <li><p><a href="https://cloud.google.com/kubernetes-engine/docs/how-to/pod-security-policies"><u>Alternative: Pod security policy required</u></a></p></li>
 </ul></td>
+</tr>
+<tr class="odd">
+<td><span id="NS_SecretsManagement" class="anchor"></span>External secrets management</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/releasenotes/changes/6dfc3529-8e66-4cf0-8b36-ef5c696f1182/">Access OCI Vault with Secrets Store CSI Driver</a></td>
+<td><a href="https://docs.aws.amazon.com/eks/latest/userguide/manage-secrets.html">AWS Secrets and Configuration Provider (ASCP) based on Secrets Store CSI Driver</a></td>
+<td><a href="https://external-secrets.io/v0.5.7/provider-google-secrets-manager/">External Secrets Operator integrates with GCP Secret Manager</a></td>
+<td><a href="https://learn.microsoft.com/en-us/azure/aks/csi-secrets-store-driver">Azure Key Vault Provider for Secrets Store CSI Driver</a></td>
 </tr>
 </tbody>
 </table>
@@ -902,13 +899,15 @@ Quick Reference
   [Accessibility]: #GI_Accessibility
   [Bare metal clusters]: #GI_BareMetal
   [Worker node types]: #GI_WorkerNodeTypes
-  [Tools for developers]: #GI_ToolsForDevelopers
+  [Preemptible capacity]: #GI_Preemptible_capacity
+  [Cluster_Addons]: #GI_Cluster_Addons
   [Max clusters]: #SL_MaxClusters
   [Max nodes per cluster]: #SL_MaxNodesCluster
   [Max nodes per node pool/group]: #SL_MaxNodesNodePool
   [Max node pools/groups per cluster]: #SL_MaxNodePoolsCluster
   [Max pods/node]: #SL_MaxPodsNode
   [Network plugin/CNI]: #NS_NetworkPlugin
+  [Workload Identity]: #NS_WorkloadIdentity
   [Kubernetes RBAC]: #NS_RBAC
   [Network policy]: #NS_NetworkPolicy
   [Pod Security Admission Controller]: #NS_PodSecurityPolicy
@@ -917,6 +916,7 @@ Quick Reference
   [Pod-to-pod traffic encryption supported by provider]: #NS_EncryptedPodTraffic
   [Firewall for cluster Kubernetes API]: #NS_ClusterFirewall
   [Read-only root filesystem on node]: #NS_ROrootFS
+  [External secrets management]: #NS_SecretsManagement
   [General]: #NS_General
   [Image repository service]: #CIS_ImageRespositoryService
   [Supported formats]: #CIS_SupportedFormats

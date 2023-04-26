@@ -10,7 +10,7 @@ author:
 parent: [tutorials]
 categories: [cloudapps, clouddev, modernize, enterprise]
 date: 2023-01-23 08:00
-modified: 2023-01-31 08:00
+modified: 2023-04-26 08:00
 
 ---
 
@@ -18,7 +18,7 @@ modified: 2023-01-31 08:00
 
 This document contains an extensive, though not exhaustive comparison of the four most prolific managed Kubernetes offerings: Oracle Container Engine for Kubernetes (OKE), Amazon Elastic Kubernetes Service (EKS), Azure Kubernetes Service (AKS), and Google Kubernetes Engine (GKE). The comparison was developed with input from the community and will continue to be revised as the technology changes.
 
-First published January 7th, 2023, this document will be updated regularly to ensure consistent and relevant information is made available. Should you have any questions or wish to contribute feedback, you may [reach us any time on Slack!]
+Last modified April 26th, 2023, this document will be updated regularly to ensure consistent and relevant information is made available. Should you have any questions or wish to contribute feedback, you may [reach us any time on Slack!]
 
 Quick reference
 
@@ -69,13 +69,13 @@ Quick reference
 <tr class="odd">
 <td><span id="GI_CurrentKs8Version" class="anchor"></span>Currently supported Kubernetes version(s)
 <p>(<a href="#Note_GI_K8s_Versions"><strong>note</strong></a>)</td>
-<td><p>1.25.4, 1.24.1, 1.23.4, 1.22.5</p>
+<td><p>1.26.2, 1.25.4, 1.24.1, 1.23.4</p>
 <p>(<a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutk8sversions.htm">source</a>)</p></td>
-<td><p>1.25, 1.24, 1.23, 1.22</p>
+<td><p>1.26, 1.25, 1.24, 1.23, 1.22</p>
 <p>(<a href="https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html">source</a>)</p></td>
-<td><p>1.25.5,1.24.9, 1.23.15, 1.23.12</p>
+<td><p>1.26, 1.25.5, 1.24.9, 1.23.15</p>
 <p>Current minor version and previous 2 minor versions (<a href="https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli">source</a>)</p></td>
-<td><p>{REGULAR) 1.25.5, 1.24.9, 1.23.14, 1.22.16, 1.21.14</p>
+<td><p>1.26, 1.25.5, 1.24.9, 1.23.14</p>
 <p>(rolling support for the most current versions of K8s; <a href="https://cloud.google.com/kubernetes-engine/versioning">source</a>)</p></td>
 </tr>
 <tr class="even">
@@ -96,7 +96,7 @@ Quick reference
 <td><span id="GI_Pricing" class="anchor"></span>Pricing</td>
 <td><a href="https://docs.oracle.com/en-us/iaas/Content/FreeTier/freetier_topic-Always_Free_Resources.htm"><u>$0.10 per hour</u></a> per cluster + standard costs of Compute instances and other resources.<p>Basic Cluster option available for free</td>
 <td><a href="https://aws.amazon.com/eks/pricing/"><u>$0.10/hour (USD)</u></a> per cluster + standard costs of EC2 instances and other resources</td>
-<td><a href="https://azure.microsoft.com/en-ca/pricing/details/kubernetes-service/"><u>Pay-as-you-go</u></a>: Standard costs of node VMs and other resources</td>
+<td><a href="https://azure.microsoft.com/en-ca/pricing/details/kubernetes-service/"><u>$0.10 per hour</u></a> per cluster + Standard costs of node VMs and other resources. Free tier available for exploration.</td>
 <td><a href="https://cloud.google.com/kubernetes-engine/pricing"><u>$0.10/hour (USD)</u></a> per cluster + standard costs of GCE machines and other resources</td>
 </tr>
 <tr class="odd">
@@ -108,7 +108,7 @@ Quick reference
 </tr>
 <tr class="even">
 <td><span id="GI_CNCFcertifiedVersion" class="anchor"></span>CLI support</td>
-<td>Full support of Kubernetes clusters;<br><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaccessingclusterkubectl.htm">kubectl</a> support</td>
+<td>Full support of Kubernetes clusters; <a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengaccessingclusterkubectl.htm">kubectl</a> support</td>
 <td>Full support of Kubernetes clusters; kubectl support</td>
 <td>Full support of Kubernetes clusters; kubectl support</td>
 <td>Full support of Kubernetes clusters; kubectl support</td>
@@ -213,7 +213,7 @@ Update node pool config, scale out to add nodes with new version, remove old nod
 <tr class="even">
 <td><span id="GI_ControlPlaneSLA" class="anchor"></span>Control plane SLA</td>
 <td>
-<p>99.95% SLO</p>
+<p><a href="https://www.oracle.com/content/published/api/v1.1/assets/CONT95B931480DF242229DF530A64F0D0245/native/Oracle%20PaaS%20and%20IaaS%20Public%20Cloud%20Services%20Pillar%20Document.pdf?cb=_cache_a99f&channelToken=117bec9b3b4e4e90a1c4c9069d210baf&download=false"><u>99.95% SLA</u></a></p>
 </td>
 <td>
 <p><a href="https://aws.amazon.com/eks/sla/"><u>99.95% (default)</u></a></p>
@@ -233,12 +233,12 @@ Update node pool config, scale out to add nodes with new version, remove old nod
 <p><a href="https://www.oracle.com/assets/paas-iaas-pub-cld-srvs-pillar-4021422.pdf">Compute SLA</a></p>
 
 <ul>
-<li><p>99.99 for regions with multiple Ads</p></li>
-<li><p>99.95 for regions with one AD</p></li>
+<li><p>99.99% for regions with multiple Ads</p></li>
+<li><p>99.95% for regions with one AD</p></li>
 <li><p>99.9% for single instance</p></li>
 </ul></td>
 <td>
-<p>guarantees 99.95% uptime</p>
+<p>Guarantees 99.95% uptime</p>
 </td>
 <td>Offers 99.95% when availability zones are enabled, and 99.9% when disabled</td>
 <td>
@@ -248,7 +248,7 @@ Update node pool config, scale out to add nodes with new version, remove old nod
 <tr class="even">
 <td><span id="GI_SLAfinanciallyBacked" class="anchor"></span>SLA financially-backed</td>
 <td>
-<p>Zero cost – not applicable</p>
+<p><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcomparingenhancedwithbasicclusters_topic.htm"><u>Yes</u></a></p>
 </td>
 <td>
 <p><a href="https://aws.amazon.com/eks/sla"><u>Yes</u></a></p>

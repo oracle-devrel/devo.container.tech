@@ -1,18 +1,17 @@
 ---
-title: Kubernetes: A comparison of managed engines
+title: "Kubernetes: A comparison of managed engines"
 description: An extensive comparison of the four most prolific managed Kubernetes offerings.
 author:
   name: Eli Schilling
   bio: Oracle DevRel Advocate, cloud native app dev and DevOps.
-  github: https://github.com/oracle-devrel
-  youtube: https://www.youtube.com/c/oracledevs/playlists
+  github: "https://github.com/oracle-devrel"
+  youtube: "https://www.youtube.com/c/oracledevs/playlists"
   email: eli.schilling@oracle.com
 parent: [tutorials]
 categories: [cloudapps, clouddev, modernize, enterprise]
 date: 2023-01-23 08:00
 modified: 2023-04-26 08:00
 
----
 
 ## **General Information**
 
@@ -23,7 +22,7 @@ Last modified April 26th, 2023, this document will be updated regularly to ensur
 Quick reference
 
 - [Currently supported Kubernetes version(s)]
-- [\# of supported minor version releases]
+- [\# of supported minor version releases][supported minor version releases]
 - [Original GA release date]
 - [Pricing]
 - [CNCF Kubernetes Conformance]
@@ -830,13 +829,13 @@ Quick Reference
 
 #### [Node OS]
 
--   <span id="Note_GI_NodeOS_01" class="anchor"></span>**(note 1)** some, but not all, of the latest Oracle Linux images provided by Oracle Cloud Infrastructure
+- <span id="Note_GI_NodeOS_01" class="anchor"></span>**(note 1)** some, but not all, of the latest Oracle Linux images provided by Oracle Cloud Infrastructure
 
     - **i.e.:** “Docker is not included in Oracle Linux 8 images. Instead, in node pools running Kubernetes 1.20.x and later, Container Engine for Kubernetes installs and uses the CRI-O container runtime and the crictl CLI (for more information, see Notes about Container Engine for Kubernetes Support for Kubernetes Version 1.20).”
 
--   <span id="Note_GI_NodeOS_02" class="anchor"></span>**(note 2)** OKE images are provided by Oracle and built on top of platform images. OKE images are optimized for use as worker node base images, with all the necessary configurations and required software
+- <span id="Note_GI_NodeOS_02" class="anchor"></span>**(note 2)** OKE images are provided by Oracle and built on top of platform images. OKE images are optimized for use as worker node base images, with all the necessary configurations and required software
 
--   **(note 3)** Custom images are provided by you and can be based on both supported platform images and OKE images. Custom images contain Oracle Linux operating systems, along with other customizations, configuration, and software that were present when you created the image.
+-  **(note 3)** Custom images are provided by you and can be based on both supported platform images and OKE images. Custom images contain Oracle Linux operating systems, along with other customizations, configuration, and software that were present when you created the image.
 
 ### Service Limits
 
@@ -844,25 +843,25 @@ Quick Reference
 
 #### [RBAC][Kubernetes RBAC]
 
--   <span id="Note_NS_RBAC_01" class="anchor"></span>**(note 1)** “**By default, users are not assigned any Kubernetes RBAC roles (or clusterroles).** Before attempting to create a new role (or clusterrole), you must be assigned an appropriately privileged role (or clusterrole). A number of such roles and clusterroles are always created by default, including the cluster-admin clusterrole (for a full list, see Default Roles and Role Bindings in the Kubernetes documentation). The cluster-admin clusterrole essentially confers super-user privileges. A user granted the cluster-admin clusterrole can perform any operation across all namespaces in a given cluster.” ([source][RBAC_source1])
+- <span id="Note_NS_RBAC_01" class="anchor"></span>**(note 1)** “**By default, users are not assigned any Kubernetes RBAC roles (or clusterroles).** Before attempting to create a new role (or clusterrole), you must be assigned an appropriately privileged role (or clusterrole). A number of such roles and clusterroles are always created by default, including the cluster-admin clusterrole (for a full list, see Default Roles and Role Bindings in the Kubernetes documentation). The cluster-admin clusterrole essentially confers super-user privileges. A user granted the cluster-admin clusterrole can perform any operation across all namespaces in a given cluster.” ([source][RBAC_source1])
 
--   <span id="Note_NS_RBAC_02" class="anchor"></span>**(note 2)** “For most operations on Kubernetes clusters created and managed by Container Engine for Kubernetes, **Oracle Cloud Infrastructure Identity and Access Management (IAM)** provides access control.” ([source][RBAC_source1])
+- <span id="Note_NS_RBAC_02" class="anchor"></span>**(note 2)** “For most operations on Kubernetes clusters created and managed by Container Engine for Kubernetes, **Oracle Cloud Infrastructure Identity and Access Management (IAM)** provides access control.” ([source][RBAC_source1])
 
--   <span id="Note_NS_RBAC_03" class="anchor"></span>**(note 3)** “In addition to IAM, the Kubernetes RBAC Authorizer can enforce additional fine-grained access control for users on specific clusters via Kubernetes RBAC roles and clusterroles.” ([source][RBAC_source1])
+- <span id="Note_NS_RBAC_03" class="anchor"></span>**(note 3)** “In addition to IAM, the Kubernetes RBAC Authorizer can enforce additional fine-grained access control for users on specific clusters via Kubernetes RBAC roles and clusterroles.” ([source][RBAC_source1])
 
 #### [Pod Security][Pod Security Admission Controller]
 
--   <span id="NS_PodSecurityAdmissionController" class="anchor"></span>**(note 1) Kubernetes Pod Security Policy will be deprecated starting with Kubernetes version 1.21, and will be removed entirely in version 1.25.** Recommended best practice is to migrate pod security policy to pod security admission controller before the deprecation deadline.
+- <span id="NS_PodSecurityAdmissionController" class="anchor"></span>**(note 1) Kubernetes Pod Security Policy will be deprecated starting with Kubernetes version 1.21, and will be removed entirely in version 1.25.** Recommended best practice is to migrate pod security policy to pod security admission controller before the deprecation deadline.
 
 #### [Private or public IP Address for Clusters][Private or public IP address for cluster Kubernetes API]
 
--   <span id="Note_NS_IPforCluster" class="anchor"></span>**(note 1)** “You access the Kubernetes API on the cluster control plane through an endpoint hosted in a subnet of your VCN. This Kubernetes API endpoint subnet can be a private or public subnet. If you specify a public subnet for the Kubernetes API endpoint, you can optionally assign a public IP address to the Kubernetes API endpoint (in addition to the private IP address). You control access to the Kubernetes API endpoint subnet using security rules defined for security lists or network security groups.”
+- <span id="Note_NS_IPforCluster" class="anchor"></span>**(note 1)** “You access the Kubernetes API on the cluster control plane through an endpoint hosted in a subnet of your VCN. This Kubernetes API endpoint subnet can be a private or public subnet. If you specify a public subnet for the Kubernetes API endpoint, you can optionally assign a public IP address to the Kubernetes API endpoint (in addition to the private IP address). You control access to the Kubernetes API endpoint subnet using security rules defined for security lists or network security groups.”
 
 ### Container Image Services
 
 #### [Image scanning service][]
 
--   <span id="Note_CIS_ImageScanningService_01" class="anchor"></span>**(note 1)** “Create and manage container image targets and to assign them to container image scan recipes. A container image target is a collection of repositories in [Container Registry] that you want scanned for security vulnerabilities.”
+- <span id="Note_CIS_ImageScanningService_01" class="anchor"></span>**(note 1)** “Create and manage container image targets and to assign them to container image scan recipes. A container image target is a collection of repositories in [Container Registry] that you want scanned for security vulnerabilities.”
 
 ## **References**
 
@@ -870,15 +869,15 @@ Quick Reference
 
 - ([StackRox]) EKS vs GKE vs AKS - Evaluating Kubernetes in the Cloud
 
--   ([itoutposts]) Kubernetes Engines Compared: Full Guide
+- ([itoutposts]) Kubernetes Engines Compared: Full Guide
 
--   ([veritis]) EKS Vs. AKS Vs. GKE: Which is the right Kubernetes platform for you?
+- ([veritis]) EKS Vs. AKS Vs. GKE: Which is the right Kubernetes platform for you?
 
--   ([kloia]) Comparison of Kubernetes Engines
+- ([kloia]) Comparison of Kubernetes Engines
 
   [reach us any time on Slack!]: https://bit.ly/odevrel_slack
   [Currently supported Kubernetes version(s)]: #GI_CurrentKs8Version
-  [\# of supported minor version releases]: #GI_SupportedMinorVersions
+  [supported minor version releases]: #GI_SupportedMinorVersions
   [Original GA release date]: #GI_ReleaseDate
   [Pricing]: #GI_Pricing
   [CNCF Kubernetes Conformance]: #GI_CNCFconformance

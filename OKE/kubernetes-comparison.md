@@ -1,28 +1,29 @@
 ---
-title: "Kubernetes: A comparison of managed engines"
+title: Kubernetes: A comparison of managed engines
 description: An extensive comparison of the four most prolific managed Kubernetes offerings.
 author:
   name: Eli Schilling
   bio: Oracle DevRel Advocate, cloud native app dev and DevOps.
-  github: "https://github.com/oracle-devrel"
-  youtube: "https://www.youtube.com/c/oracledevs/playlists"
+  github: https://github.com/oracle-devrel
+  youtube: https://www.youtube.com/c/oracledevs/playlists
   email: eli.schilling@oracle.com
 parent: [tutorials]
 categories: [cloudapps, clouddev, modernize, enterprise]
 date: 2023-01-23 08:00
-modified: 2023-04-26 08:00
+modified: 2023-08-01 08:00
 
+---
 
 ## **General Information**
 
 This document contains an extensive, though not exhaustive comparison of the four most prolific managed Kubernetes offerings: Oracle Container Engine for Kubernetes (OKE), Amazon Elastic Kubernetes Service (EKS), Azure Kubernetes Service (AKS), and Google Kubernetes Engine (GKE). The comparison was developed with input from the community and will continue to be revised as the technology changes.
 
-Last modified April 26th, 2023, this document will be updated regularly to ensure consistent and relevant information is made available. Should you have any questions or wish to contribute feedback, you may [reach us any time on Slack!]
+Last modified August 1st, 2023, this document will be updated regularly to ensure consistent and relevant information is made available. Should you have any questions or wish to contribute feedback, you may [reach us any time on Slack!]
 
 Quick reference
 
-- [Currently supported Kubernetes version(s)]
-- [\# of supported minor version releases][supported minor version releases]
+- [Supported Kubernetes version(s)]
+- [\# of supported minor version releases]
 - [Original GA release date]
 - [Pricing]
 - [CNCF Kubernetes Conformance]
@@ -66,16 +67,20 @@ Quick reference
 </thead>
 <tbody>
 <tr class="odd">
-<td><span id="GI_CurrentKs8Version" class="anchor"></span>Currently supported Kubernetes version(s)
+<td><span id="GI_CurrentKs8Version" class="anchor"></span>Supported Kubernetes version(s)
 <p>(<a href="#Note_GI_K8s_Versions"><strong>note</strong></a>)</td>
-<td><p>1.26.2, 1.25.4, 1.24.1, 1.23.4</p>
+<td><p>Container Engine for Kubernetes supports three versions of Kubernetes for new clusters. For a minimum of 30 days after the announcement of support for a new Kubernetes version, Container Engine for Kubernetes continues to support the fourth, oldest available Kubernetes version. After that time, the older Kubernetes version ceases to be supported.</p>
 <p>(<a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengaboutk8sversions.htm">source</a>)</p></td>
-<td><p>1.26, 1.25, 1.24, 1.23, 1.22</p>
+<td><p>EKS is committed to supporting at least four production-ready versions of Kubernetes at any given time. We will announce the end of support date of a given Kubernetes minor version at least 60 days before the end of support date. Because of the Amazon EKS qualification and release process for new Kubernetes versions, the end of support date of a Kubernetes version on Amazon EKS will be on or after the date that the Kubernetes project stops supporting the version upstream.</p>
 <p>(<a href="https://docs.aws.amazon.com/eks/latest/userguide/kubernetes-versions.html">source</a>)</p></td>
-<td><p>1.26, 1.25.5, 1.24.9, 1.23.15</p>
-<p>Current minor version and previous 2 minor versions (<a href="https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli">source</a>)</p></td>
-<td><p>1.26, 1.25.5, 1.24.9, 1.23.14</p>
-<p>(rolling support for the most current versions of K8s; <a href="https://cloud.google.com/kubernetes-engine/versioning">source</a>)</p></td>
+<td><p>AKS defines a generally available (GA) version as a version available in all regions and enabled in all SLO or SLA measurements. AKS supports three GA minor versions of Kubernetes:
+
+* The latest GA minor version released in AKS (which we'll refer to as N).
+* Two previous minor versions.
+  * Each supported minor version also supports a maximum of two stable patches.</p>
+<p>(<a href="https://docs.microsoft.com/en-us/azure/aks/supported-kubernetes-versions?tabs=azure-cli">source</a>)</p></td>
+<td><p>Based on the current Kubernetes OSS community version support policy, GKE plans to maintain supported minor versions for 14 months, including the 12 months after the release in the Regular channel, followed by a 2-month maintenance period. During the maintenance period, no new node pool creations will be allowed for a maintenance version, but existing node pools that run a maintenance version will continue to remain in operation.</p>
+<p><a href="https://cloud.google.com/kubernetes-engine/versioning">source</a>)</p></td>
 </tr>
 <tr class="even">
 <td><span id="GI_SupportedMinorVersions" class="anchor"></span># of supported minor version releases</td>
@@ -189,7 +194,7 @@ Update node pool config, scale out to add nodes with new version, remove old nod
 (also available through Bottlerocket)</u></a></p>
 </td>
 <td>
-<p>containerd</p>
+<p><a href="https://learn.microsoft.com/en-us/azure/aks/cluster-configuration">containerd</a></p>
 </ul></td>
 <td>
 <p><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/using-containerd"><u>containerd</u></a></p>
@@ -222,7 +227,7 @@ Update node pool config, scale out to add nodes with new version, remove old nod
 <li><p><a href="https://techcommunity.microsoft.com/t5/apps-on-azure/aks-introduces-uptime-sla/ba-p/1350832"><u>99.9% (non-SLA backed)</u></a></p></li>
 </ul></td>
 <td><ul>
-<li><p><a href="https://cloud.google.com/kubernetes-engine/sla"><u>Zonal clusters: 99.95%</u></a></p></li>
+<li><p><a href="https://cloud.google.com/kubernetes-engine/sla"><u>Zonal clusters: 99.5%</u></a></p></li>
 <li><p><a href="https://cloud.google.com/kubernetes-engine/sla"><u>Regional clusters: 99.95%</u></a></p></li>
 </ul></td>
 </tr>
@@ -232,7 +237,7 @@ Update node pool config, scale out to add nodes with new version, remove old nod
 <p><a href="https://www.oracle.com/assets/paas-iaas-pub-cld-srvs-pillar-4021422.pdf">Compute SLA</a></p>
 
 <ul>
-<li><p>99.99% for regions with multiple Ads</p></li>
+<li><p>99.99% for regions with multiple ADs</p></li>
 <li><p>99.95% for regions with one AD</p></li>
 <li><p>99.9% for single instance</p></li>
 </ul></td>
@@ -349,14 +354,14 @@ Requires additional setup, metric selection, etc.</p>
 </tr>
 <tr class="even">
 <td><span id="GI_ServerlessComputing" class="anchor"></span>Serverless computing</td>
-<td>Virtual Nodes and Virtual Node pools provide a serverless Kubernetes experience.</td>
-<td>Integrated with <a href="https://aws.amazon.com/fargate/"><strong>Fargate</strong></a>; customer can deploy pods as container instances rather than full VMs. Requires the use of <strong>Amazon Application Load Balancer</strong></td>
-<td>Virtual nodes make serverless computing possible in AKS. Does not run separately from the available Kubernetes workloads. A customer can use virtual nodes by assigning particular workloads to them.</td>
-<td><a href="https://cloud.google.com/anthos/run/docs/architecture-overview"><strong>Cloud Run</strong> for Anthos</a></td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengworkingwithvirtualnodes.htm">Virtual Nodes</a> and Virtual Node pools provide a serverless Kubernetes experience with per-Pod billing.</td>
+<td><a href="https://aws.amazon.com/fargate/">AWS Fargate</a> removes the need to provision and manage servers.</td>
+<td><a href="https://learn.microsoft.com/en-us/azure/aks/virtual-nodes">AKS Virtual Nodes</a> are heavily dependent on <a href="https://learn.microsoft.com/en-us/azure/container-instances/container-instances-overview">Azure Container Instances'</a> feature set.</td>
+<td><a href="https://cloud.google.com/kubernetes-engine/docs/concepts/autopilot-overview">GKE Autopilot</a> provides a serverless Kubernetes experience.</td>
 </tr>
 <tr class="odd">
 <td><span id="GI_Accessibility" class="anchor"></span>Accessibility</td>
-<td>OCI has multiple realms: one commercial realm (with 34 regions) and multiple realms for Government Cloud: US Government Cloud <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/govfedramp.htm#Oracle_Cloud_Infrastructure_US_Government_Cloud_with_FedRAMP_Authorization"><u>FedRAMP authorized</u></a> and <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/govfeddod.htm#Oracle_Cloud_Infrastructure_US_Federal_Cloud_with_DISA_Impact_Level_5_Authorization"><u>IL5 authorized</u></a>, and <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/govuksouth.htm#Oracle_Cloud_Infrastructure_United_Kingdom_Government_Cloud"><u>United Kingdom Government Cloud</u></a></td>
+<td>OCI has multiple realms: one <a href="https://www.oracle.com/cloud/public-cloud-regions/">commercial realm</a> (with 44 regions) and multiple realms for Government Cloud: US Government Cloud <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/govfedramp.htm#Oracle_Cloud_Infrastructure_US_Government_Cloud_with_FedRAMP_Authorization"><u>FedRAMP authorized</u></a> and <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/govfeddod.htm#Oracle_Cloud_Infrastructure_US_Federal_Cloud_with_DISA_Impact_Level_5_Authorization"><u>IL5 authorized</u></a>, and <a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/govuksouth.htm#Oracle_Cloud_Infrastructure_United_Kingdom_Government_Cloud"><u>United Kingdom Government Cloud</u></a></td>
 <td><p>30 regions containing 96 Availability Zones. <em>Service availability may vary by region.</em></p>
 <p>EKS is available on AWS GovCloud regions. AWS Fargate is NOT available in GovCloud regions.</p></td>
 <td><p>Available in 57 of Azure’s 60 regions. <a href="https://learn.microsoft.com/en-us/azure/reliability/availability-zones-overview">Not all regions include availability zones</a></p>
@@ -379,7 +384,8 @@ Requires additional setup, metric selection, etc.</p>
 <p>Specific node images required for various CPU / GPU combinations. (<a href="https://docs.aws.amazon.com/eks/latest/userguide/choosing-instance-type.html">source</a>)</p></td>
 <td><p>x86, ARM, GPU</p>
 <p>Minimum 2 vCPU per worker node. Provisioned node size cannot be changed without replacement.</p></td>
-<td>x86, ARM (v1.24 or later, only), GPU</td>
+<td><p>x86, ARM*, GPU</p>
+<p><i>*ARM supported only on v1.24 or later and only in 3 regions:<li>us-central1 (Iowa)</li><li>europe-west4 (Netherlands)</li><li>asia-southeast1 (Singapore)</li></i></td>
 </tr>
 <tr class="even">
 <td><span id="GI_Preemptible_capacity" class="anchor"></span>Preemptible Capacity</td>
@@ -428,30 +434,28 @@ Quick reference
 <tbody>
 <tr class="odd">
 <td><span id="SL_MaxClusters" class="anchor"></span>Max clusters</td>
-<td><p><a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm">15 clusters/region (Monthly Universal Credits) or 1 cluster/region (Pay-as-You-Go or Promo) by default</a></p>
+<td><p><a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm">15 clusters/region</a> (Monthly Universal Credits) or 1 cluster/region (Pay-as-You-Go or Promo) by default</p>
 <p>Limits can be increased through service request</p></td>
 <td><a href="https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html"><u>100/region</u></a></td>
 <td>5000 per subscription</td>
-<td><a href="https://cloud.google.com/kubernetes-engine/quotas"><u>100/zone + 100 regional clusters</u></a></td>
+<td>100 <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/types-of-clusters#zonal_clusters">zonal clusters</a> per zone, plus 100 <a href="https://cloud.google.com/kubernetes-engine/docs/concepts/types-of-clusters#regional_clusters">regional clusters</a> per region</td>
 </tr>
 <tr class="even">
 <td><span id="SL_MaxNodesCluster" class="anchor"></span>Max nodes per cluster</td>
-<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">Each cluster you create can have a maximum of 2000 managed nodes</a></td>
-<td><a href="https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html"><u>30 (Managed node groups) * 100 (Max nodes per group) = 3000</u></a></td>
+<td><li>1000 per basic cluster</li><li>2000 per enhanced cluster</li><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">source</a></td>
+<td><p>450 nodes/node group * 30 node groups/cluster = 13,500 nodes/cluster</p><a href="https://docs.aws.amazon.com/eks/latest/userguide/service-quotas.html">source</a></td>
 <td><ul>
 <li><p><a href="https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits#azure-kubernetes-service-limits"><u>5000 (Virtual Machine Scale Sets)</u></a></p></li>
 <li><p>1000 (VM Availability Sets)</p></li>
 </ul></td>
-<td><ul>
-<li><p><a href="https://cloud.google.com/kubernetes-engine/quotas"><u>15,000 nodes (v1.18 required)</u></a></p></li>
-<li><p><a href="https://cloud.google.com/kubernetes-engine/quotas#limits_per_clus_er"><u>5000 nodes (v1.17 or lower)</u></a></p></li>
+<td><p><a href="https://cloud.google.com/kubernetes-engine/quotas">15,000 nodes</a></p> (v1.18 and newer)</p>
 </ul></td>
 </tr>
 <tr class="odd">
 <td><span id="SL_MaxNodesNodePool" class="anchor"></span>Max nodes per node pool/group</td>
-<td>2000</td>
+<td><a href="https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm">1000</a></td>
 <td>Managed node groups: 100</td>
-<td><u><a href="https://docs.microsoft.com/en-us/azure/aks/quotas-skus-regions">100</a>0</u></td>
+<td><u><a href="https://docs.microsoft.com/en-us/azure/aks/quotas-skus-regions">1000</a></u></td>
 <td><a href="https://cloud.google.com/kubernetes-engine/quotas"><u>1000</u></a></td>
 </tr>
 <tr class="even">
@@ -463,7 +467,8 @@ Quick reference
 </tr>
 <tr class="odd">
 <td><span id="SL_MaxPodsNode" class="anchor"></span>Max pods per node</td>
-<td><a href="https://docs.oracle.com/en-us/iaas/Content/ContEng/Concepts/contengoverview.htm">110 pods/node</a></td>
+<td><li>110 pods/managed node</li><li>500 pods/virtual node</li>
+<a href=https://docs.oracle.com/en-us/iaas/Content/General/Concepts/servicelimits.htm>source></a></td>
 <td><p><strong>Linux:</strong></p>
 <ul>
 <li><p><a href="https://medium.com/faun/aws-eks-and-pods-sizing-per-node-considerations-964b08dcfad3"><u>Varies by node instance type</u></a>: <em>((# of IPs per Elastic Network Interface - 1) * # of ENIs) + 2</em></p></li>
@@ -477,7 +482,7 @@ Quick reference
 <li><p>110 (kubenet network)</p></li>
 <li><p>30 (Azure CNI, default)</p></li>
 </ul></td>
-<td><a href="https://cloud.google.com/kubernetes-engine/docs/best-practices/scalability"><u>110 (default)</u></a></td>
+<td><li>256 for Standard cluster</li><li>32 fro Autopilot cluster</li><a href="https://cloud.google.com/kubernetes-engine/docs/best-practices/scalability">source</a></td>
 </tr>
 </tbody>
 </table>
@@ -808,7 +813,7 @@ Quick Reference
 
 ### General Information
 
-#### [Supported K8s Versions][Currently Supported Kubernetes Version(s)]
+#### [Supported K8s Versions][Supported Kubernetes Version(s)]
 - <span id="Note_GI_K8s_Versions" class="anchor"></span>**(note 1)** Kubernetes releases happen approximately three times per year and the typical patch cadence is monthly (though not uncommon to be every 1 to 2 weeks). The best way to determine exactly which versions are currently supported on a particular platform is to utilize the Command Line Interface (CLI) of that cloud provider. Example commands are as follows:
 
     - **Oracle**
@@ -829,13 +834,13 @@ Quick Reference
 
 #### [Node OS]
 
-- <span id="Note_GI_NodeOS_01" class="anchor"></span>**(note 1)** some, but not all, of the latest Oracle Linux images provided by Oracle Cloud Infrastructure
+-   <span id="Note_GI_NodeOS_01" class="anchor"></span>**(note 1)** some, but not all, of the latest Oracle Linux images provided by Oracle Cloud Infrastructure
 
     - **i.e.:** “Docker is not included in Oracle Linux 8 images. Instead, in node pools running Kubernetes 1.20.x and later, Container Engine for Kubernetes installs and uses the CRI-O container runtime and the crictl CLI (for more information, see Notes about Container Engine for Kubernetes Support for Kubernetes Version 1.20).”
 
-- <span id="Note_GI_NodeOS_02" class="anchor"></span>**(note 2)** OKE images are provided by Oracle and built on top of platform images. OKE images are optimized for use as worker node base images, with all the necessary configurations and required software
+-   <span id="Note_GI_NodeOS_02" class="anchor"></span>**(note 2)** OKE images are provided by Oracle and built on top of platform images. OKE images are optimized for use as worker node base images, with all the necessary configurations and required software
 
--  **(note 3)** Custom images are provided by you and can be based on both supported platform images and OKE images. Custom images contain Oracle Linux operating systems, along with other customizations, configuration, and software that were present when you created the image.
+-   **(note 3)** Custom images are provided by you and can be based on both supported platform images and OKE images. Custom images contain Oracle Linux operating systems, along with other customizations, configuration, and software that were present when you created the image.
 
 ### Service Limits
 
@@ -843,25 +848,25 @@ Quick Reference
 
 #### [RBAC][Kubernetes RBAC]
 
-- <span id="Note_NS_RBAC_01" class="anchor"></span>**(note 1)** “**By default, users are not assigned any Kubernetes RBAC roles (or clusterroles).** Before attempting to create a new role (or clusterrole), you must be assigned an appropriately privileged role (or clusterrole). A number of such roles and clusterroles are always created by default, including the cluster-admin clusterrole (for a full list, see Default Roles and Role Bindings in the Kubernetes documentation). The cluster-admin clusterrole essentially confers super-user privileges. A user granted the cluster-admin clusterrole can perform any operation across all namespaces in a given cluster.” ([source][RBAC_source1])
+-   <span id="Note_NS_RBAC_01" class="anchor"></span>**(note 1)** “**By default, users are not assigned any Kubernetes RBAC roles (or clusterroles).** Before attempting to create a new role (or clusterrole), you must be assigned an appropriately privileged role (or clusterrole). A number of such roles and clusterroles are always created by default, including the cluster-admin clusterrole (for a full list, see Default Roles and Role Bindings in the Kubernetes documentation). The cluster-admin clusterrole essentially confers super-user privileges. A user granted the cluster-admin clusterrole can perform any operation across all namespaces in a given cluster.” ([source][RBAC_source1])
 
-- <span id="Note_NS_RBAC_02" class="anchor"></span>**(note 2)** “For most operations on Kubernetes clusters created and managed by Container Engine for Kubernetes, **Oracle Cloud Infrastructure Identity and Access Management (IAM)** provides access control.” ([source][RBAC_source1])
+-   <span id="Note_NS_RBAC_02" class="anchor"></span>**(note 2)** “For most operations on Kubernetes clusters created and managed by Container Engine for Kubernetes, **Oracle Cloud Infrastructure Identity and Access Management (IAM)** provides access control.” ([source][RBAC_source1])
 
-- <span id="Note_NS_RBAC_03" class="anchor"></span>**(note 3)** “In addition to IAM, the Kubernetes RBAC Authorizer can enforce additional fine-grained access control for users on specific clusters via Kubernetes RBAC roles and clusterroles.” ([source][RBAC_source1])
+-   <span id="Note_NS_RBAC_03" class="anchor"></span>**(note 3)** “In addition to IAM, the Kubernetes RBAC Authorizer can enforce additional fine-grained access control for users on specific clusters via Kubernetes RBAC roles and clusterroles.” ([source][RBAC_source1])
 
 #### [Pod Security][Pod Security Admission Controller]
 
-- <span id="NS_PodSecurityAdmissionController" class="anchor"></span>**(note 1) Kubernetes Pod Security Policy will be deprecated starting with Kubernetes version 1.21, and will be removed entirely in version 1.25.** Recommended best practice is to migrate pod security policy to pod security admission controller before the deprecation deadline.
+-   <span id="NS_PodSecurityAdmissionController" class="anchor"></span>**(note 1) Kubernetes Pod Security Policy will be deprecated starting with Kubernetes version 1.21, and will be removed entirely in version 1.25.** Recommended best practice is to migrate pod security policy to pod security admission controller before the deprecation deadline.
 
 #### [Private or public IP Address for Clusters][Private or public IP address for cluster Kubernetes API]
 
-- <span id="Note_NS_IPforCluster" class="anchor"></span>**(note 1)** “You access the Kubernetes API on the cluster control plane through an endpoint hosted in a subnet of your VCN. This Kubernetes API endpoint subnet can be a private or public subnet. If you specify a public subnet for the Kubernetes API endpoint, you can optionally assign a public IP address to the Kubernetes API endpoint (in addition to the private IP address). You control access to the Kubernetes API endpoint subnet using security rules defined for security lists or network security groups.”
+-   <span id="Note_NS_IPforCluster" class="anchor"></span>**(note 1)** “You access the Kubernetes API on the cluster control plane through an endpoint hosted in a subnet of your VCN. This Kubernetes API endpoint subnet can be a private or public subnet. If you specify a public subnet for the Kubernetes API endpoint, you can optionally assign a public IP address to the Kubernetes API endpoint (in addition to the private IP address). You control access to the Kubernetes API endpoint subnet using security rules defined for security lists or network security groups.”
 
 ### Container Image Services
 
 #### [Image scanning service][]
 
-- <span id="Note_CIS_ImageScanningService_01" class="anchor"></span>**(note 1)** “Create and manage container image targets and to assign them to container image scan recipes. A container image target is a collection of repositories in [Container Registry] that you want scanned for security vulnerabilities.”
+-   <span id="Note_CIS_ImageScanningService_01" class="anchor"></span>**(note 1)** “Create and manage container image targets and to assign them to container image scan recipes. A container image target is a collection of repositories in [Container Registry] that you want scanned for security vulnerabilities.”
 
 ## **References**
 
@@ -869,15 +874,15 @@ Quick Reference
 
 - ([StackRox]) EKS vs GKE vs AKS - Evaluating Kubernetes in the Cloud
 
-- ([itoutposts]) Kubernetes Engines Compared: Full Guide
+-   ([itoutposts]) Kubernetes Engines Compared: Full Guide
 
-- ([veritis]) EKS Vs. AKS Vs. GKE: Which is the right Kubernetes platform for you?
+-   ([veritis]) EKS Vs. AKS Vs. GKE: Which is the right Kubernetes platform for you?
 
-- ([kloia]) Comparison of Kubernetes Engines
+-   ([kloia]) Comparison of Kubernetes Engines
 
   [reach us any time on Slack!]: https://bit.ly/odevrel_slack
-  [Currently supported Kubernetes version(s)]: #GI_CurrentKs8Version
-  [supported minor version releases]: #GI_SupportedMinorVersions
+  [Supported Kubernetes version(s)]: #GI_CurrentKs8Version
+  [\# of supported minor version releases]: #GI_SupportedMinorVersions
   [Original GA release date]: #GI_ReleaseDate
   [Pricing]: #GI_Pricing
   [CNCF Kubernetes Conformance]: #GI_CNCFconformance
